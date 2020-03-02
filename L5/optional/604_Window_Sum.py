@@ -20,31 +20,34 @@ class Solution:
     @param k: length of window.
     @return: the sum of the element inside the window at each moving.
     """
+
     def winSum(self, nums, k):
         # write your code here
+        if nums is None:
+            return []
         n = len(nums)
-        if n < k or k == 0:
+        if n < k:
             return []
         if n == k:
-            return [sum(nums)]
-
+            return [nums(k)]
+        rslt = []
         slow = 0
-        fast = k # one index to the right of the current window
-
-
+        fast = 0
         sum_val = 0
-        for i in range(k):
-            sum_val+=nums[i]
+        while fast < k:
+            sum_val += nums[fast]
+            fast += 1
 
-        rslt = [sum_val]
+        rslt.append(sum_val)
 
         while fast < n:
             sum_val = sum_val - nums[slow] + nums[fast]
             rslt.append(sum_val)
-            slow += 1
             fast += 1
+            slow += 1
 
         return rslt
 
+
 sol = Solution()
-sol.winSum([1,2,7,8,5],3)
+sol.winSum(nums=[1, 2, 7, 8, 5], k=3)
