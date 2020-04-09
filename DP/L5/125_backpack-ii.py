@@ -1,0 +1,126 @@
+# 125. Backpack II
+# 中文English
+# There are n items and a backpack with size m. Given array A representing the size of each item
+# and array V representing the value of each item.
+#
+# What's the maximum value can you put into the backpack?
+#
+# Example
+# Example 1:
+#
+# Input: m = 10, A = [2, 3, 5, 7], V = [1, 5, 2, 4]
+# Output: 9
+# Explanation: Put A[1] and A[3] into backpack, getting the maximum value V[1] + V[3] = 9
+# Example 2:
+#
+# Input: m = 10, A = [2, 3, 8], V = [2, 5, 8]
+# Output: 10
+# Explanation: Put A[0] and A[2] into backpack, getting the maximum value V[0] + V[2] = 10
+# Challenge
+# O(nm) memory is acceptable, can you do it in O(m) memory?
+#
+# Notice
+# A[i], V[i], n, m are all integers.
+# You can not split an item.
+# The sum size of the items you want to put into backpack can not exceed m.
+# Each item can only be picked up once
+
+class Solution:
+    """
+    @param m: An integer m denotes the size of a backpack
+    @param A: Given n items with size A[i]
+    @param V: Given n items with value V[i]
+    @return: The maximum value
+    """
+
+    def backPackII(self, m, A, V):
+        # write your code here
+        # f[i][w] = 用前i个物品(每个物品可以用也可以不用)拼出重量为w时的最大总价值是多少。
+        # f[i][w] = -1 代表不能拼出该物品。
+        # f[i][w] = 选择一：如果不用最后一个物品　选择二：用最后一个物品。
+        # 选择一：　f[i][w] = f[i-1][w]
+        # 选择二:   f[i][w] = f[i-1][w-A[i-1]] + V[i-1] | w-A[i-1]>=0  and f[i-1][w-A[i-1]] != -1
+        # f[i-1][w-A[i-1]] + V[i-1] = 用前i-1个物品拼出重量为w-A[i-1]]的背包的最大总价值　+ 第i的物品的价值
+        # f[i-1][w-A[i-1]] 意思是，我们能用前i-1个物品拼出重量为w-A[i-1]]的背包
+        n = len(A)
+        f = [[None] * (m + 1) for _ in range(n + 1)]
+
+        f[0][0] = 0  # 用0个物品拼出重量为0的背包, 总价值为0
+        for w in range(1, m + 1):
+            f[0][w] = -1  # 用0个物品无法拼出重量不为0的背包
+
+        for i in range(1, n + 1):
+            f[i][0] = 0  # 用前i个物品拼出重量为0的背包, 最大总价值为0
+            for w in range(1, m + 1):
+                # 选择一：如果不用最后一个物品
+                f[i][w] = f[i - 1][w]
+                # 选择二：用最后一个物品。
+                if w - A[i - 1] >= 0 and f[i - 1][w - A[i - 1]] != -1:
+                    f[i][w] = max(f[i][w], f[i - 1][w - A[i - 1]] + V[i - 1])
+
+        # 用前n个（所有的物品），能拼出来的所有的可能的重量的最大总价值是多少。
+        return max(f[n])
+
+    def backPackII_print_solution(self, m, A, V):
+        # write your code here
+        # f[i][w] = 用前i个物品(每个物品可以用也可以不用)拼出重量为w时的最大总价值是多少。
+        # f[i][w] = -1 代表不能拼出该物品。
+        # f[i][w] = 选择一：如果不用最后一个物品　选择二：用最后一个物品。
+        # 选择一：　f[i][w] = f[i-1][w]
+        # 选择二:   f[i][w] = f[i-1][w-A[i-1]] + V[i-1] | w-A[i-1]>=0  and f[i-1][w-A[i-1]] != -1
+        # f[i-1][w-A[i-1]] + V[i-1] = 用前i-1个物品拼出重量为w-A[i-1]]的背包的最大总价值　+ 第i的物品的价值
+        # f[i-1][w-A[i-1]] 意思是，我们能用前i-1个物品拼出重量为w-A[i-1]]的背包
+        n = len(A)
+        f = [[None] * (m + 1) for _ in range(n + 1)]
+
+        # pi[i][w] contains value of 0 or 1.
+        # pi[i][w] = 1 表示在拼重量为w的背包的时候，用了第i个物品
+        # pi[i][w] = 0 表示在拼重量为w的背包的时候，没有用第i个物品
+        pi = [[None] * (m + 1) for _ in range(n + 1)]
+
+        f[0][0] = 0  # 用0个物品拼出重量为0的背包, 总价值为0
+        for w in range(1, m + 1):
+            f[0][w] = -1  # 用0个物品无法拼出重量不为0的背包
+
+        for i in range(1, n + 1):
+            f[i][0] = 0  # 用前i个物品拼出重量为0的背包, 最大总价值为0
+            for w in range(1, m + 1):
+                # 选择一：如果不用最后一个物品
+                f[i][w] = f[i - 1][w]
+                pi[i][w] = 0
+                # 选择二：用最后一个物品。
+                if w - A[i - 1] >= 0 and f[i - 1][w - A[i - 1]] != -1:
+                    f[i][w] = max(f[i][w], f[i - 1][w - A[i - 1]] + V[i - 1])
+                    pi[i][w] = 1
+
+        # 用前n个（所有的物品），能拼出来的所有的可能的重量的最大总价值是多少。
+        res_value = 0
+        res_weight = None
+        for w in range(0, m + 1):
+            if f[n][w] != -1:
+                res_value = max(res_value, f[n][w])
+                if res_value == f[n][w]:
+                    res_weight = w
+
+        selected = [None] * n
+        for i in reversed(range(1, n + 1)):
+            if pi[i][res_weight] == 1:
+                selected[i - 1] = True
+                res_weight = res_weight - A[i - 1]
+            else:
+                selected[i - 1] = False
+
+        rslt_item = []
+        for i in range(len(selected)):
+            if selected[i]:
+                rslt_item.append(A[i])
+
+        return res_value, rslt_item
+
+
+m = 10
+A = [2, 3, 5, 7]
+V = [1, 5, 2, 4]
+
+sol = Solution()
+sol.backPackII_print_solution(m, A, V)
