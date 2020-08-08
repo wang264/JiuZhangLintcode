@@ -32,6 +32,7 @@
 # Notice
 # There is no limit of how you deserialize or serialize a binary tree, LintCode will take your output of serialize as the input of deserialize, it won't check the result of serialize.
 
+
 from collections import deque
 
 """
@@ -53,15 +54,17 @@ class Solution:
 
     def serialize(self, root):
         if root is None:
-            return ""
+            return "#"
 
         # use bfs to serialize the tree
         queue = deque([root])
         bfs_order = []
         while queue:
             node = queue.popleft()
-            bfs_order.append(str(node.val) if node else '#')
-            if node:
+            if node is None:
+                bfs_order.append("#")
+            else:
+                bfs_order.append(str(node.val))
                 queue.append(node.left)
                 queue.append(node.right)
 
@@ -78,59 +81,67 @@ class Solution:
 
     def deserialize(self, data):
         # None or ""
-        if not data:
+        data = deque(data.split(' '))
+        if data[0] == '#':
             return None
 
-        bfs_order = [
-            TreeNode(int(val)) if val != '#' else None
-            for val in data.split()
-        ]
-        root = bfs_order[0]
-        fast_index = 1
-
-        nodes, slow_index = [root], 0
-        while slow_index < len(nodes):
-            node = nodes[slow_index]
-            slow_index += 1
-            node.left = bfs_order[fast_index]
-            node.right = bfs_order[fast_index + 1]
-            fast_index += 2
-
-            if node.left:
-                nodes.append(node.left)
-            if node.right:
-                nodes.append(node.right)
+        root = TreeNode(int(data.popleft()))
+        q = deque([root])
+        isLeft = True
+        while q:
+            curr_value = data.popleft()
+            if curr_value != "#":
+                curr_node = TreeNode(int(curr_value))
+                q.append(curr_node)
+                if isLeft:
+                    q[0].left = curr_node
+                else:
+                    q[0].right = curr_node
+            if not isLeft:
+                q.popleft()
+            isLeft = not isLeft
 
         return root
 
-# # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-# 
-#     def __repr__(self):
-#         left = None if self.left is None else self.left.val
-#         right = None if self.right is None else self.right.val
-#         return '(D:{}, L:{}, R:{})'.format(self.val, left, right)
-# 
-# 
-# def build_tree_breadth_first(sequence):
-#     # Create a list of trees
-#     forest = [TreeNode(x) if x is not None else None for x in sequence ]
-# 
-#     # Fix up the left- and right links
-#     count = len(forest)
-#     for index, tree in enumerate(forest):
-#         left_index = 2 * index + 1
-#         if left_index < count:
-#             tree.left = forest[left_index]
-# 
-#         right_index = 2 * index + 2
-#         if right_index < count:
-#             tree.right = forest[right_index]
-# 
-#     for index, tree in enumerate(forest):
-#         print('[{}]: {}'.format(index, tree))
-#     return forest[0]  # root
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+    def __repr__(self):
+        left = None if self.left is None else self.left.val
+        right = None if self.right is None else self.right.val
+        return '(D:{}, L:{}, R:{})'.format(self.val, left, right)
+
+
+def build_tree_breadth_first(sequence):
+    # Create a list of trees
+    forest = [TreeNode(x) if x is not None else None for x in sequence ]
+
+    # Fix up the left- and right links
+    count = len(forest)
+    for index, tree in enumerate(forest):
+        left_index = 2 * index + 1
+        if left_index < count:
+            tree.left = forest[left_index]
+
+        right_index = 2 * index + 2
+        if right_index < count:
+            tree.right = forest[right_index]
+
+    for index, tree in enumerate(forest):
+        print('[{}]: {}'.format(index, tree))
+    return forest[0]  # root
+
+
+sol = Solution()
+root = build_tree_breadth_first([3,9,20,None,None,15,7])
+data = sol.serialize(root)
+print(data)
+root_2 = sol.deserialize(data)
+
+
+data = sol.serialize(None)
+root_3 = sol.deserialize(data)

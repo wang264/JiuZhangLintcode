@@ -11,7 +11,7 @@
 # 例1:
 
 # 输入:
-# map = 
+# map =
 # [
 #  [0,0,1,0,0],
 #  [0,0,0,0,0],
@@ -26,7 +26,7 @@
 # 例2:
 
 # 输入:
-# map = 
+# map =
 # [[0,0,1,0,0],
 #  [0,0,0,0,0],
 #  [0,0,0,1,0],
@@ -43,9 +43,11 @@
 # 3.给定的迷宫不包含边框(比如图片中的红色矩形)，但是你可以假设迷宫的边界都是墙。
 # 5.迷宫中至少有2个空的空间，迷宫的宽度和高度都不会超过100。
 
-DELTAS = [(0 ,1), (1 ,0) ,(0 ,-1), (-1 ,0)]
+DELTAS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 from collections import deque
+
+
 class Solution:
     """
     @param maze: the maze
@@ -53,29 +55,29 @@ class Solution:
     @param destination: the destination
     @return: whether the ball could stop at the destination
     """
+
     def hasPath(self, maze, start, destination):
-        # write your code here
-        visited = [[False ] *len(maze[0]) for _ in range(len(maze))]
+        visited = set()
+        if not self.is_valid(maze, start[0], start[1]):
+            return False
 
-        q = deque([start])
+        queue = deque([start])
+        visited.add((start[0], start[1]))
 
-
-        while q:
-            x ,y = q.popleft()
-            visited[x][y ] =True
+        while queue:
+            x, y = queue.popleft()
             if x == destination[0] and y == destination[1]:
                 return True
-
             for dx, dy in DELTAS:
                 # for that direction, if we could move in that direction we
                 # continue to move until we hit a wall or out of bound
                 new_x, new_y = x, y
-                while self.is_valid(maze, new_x +dx, new_y +dy):
-                    new_x+=dx
-                    new_y+=dy
-
-                if not visited[new_x][new_y]:
-                    q.append((new_x, new_y))
+                while self.is_valid(maze, new_x + dx, new_y + dy):
+                    new_x += dx
+                    new_y += dy
+                if (new_x, new_y) not in visited:
+                    queue.append([new_x, new_y])
+                    visited.add((new_x, new_y))
 
         return False
 
@@ -83,7 +85,27 @@ class Solution:
         num_row = len(maze)
         num_col = len(maze[0])
 
-        if 0<= x < num_row and 0 <= y < num_col and maze[x][y] == 0:
+        if 0 <= x < num_row and 0 <= y < num_col and maze[x][y] == 0:
             return True
         else:
             return False
+
+
+sol = Solution()
+map = [
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0],
+    [1, 1, 0, 1, 1],
+    [0, 0, 0, 0, 0]
+]
+assert sol.hasPath(maze=map, start=[0, 4], destination=[3, 2]) == False
+
+map = [
+ [0,0,1,0,0],
+ [0,0,0,0,0],
+ [0,0,0,1,0],
+ [1,1,0,1,1],
+ [0,0,0,0,0]
+]
+assert sol.hasPath(maze=map, start=[0, 4], destination=[4, 4]) == True

@@ -1,4 +1,33 @@
+# 598. Zombie in Matrix
+# 中文English
+# Given a 2D grid, each cell is either a wall 2, a zombie 1 or people 0 (the number zero, one, two).Zombies can turn
+# the nearest people(up/down/left/right) into zombies every day, but can not through wall. How long will it take to
+# turn all people into zombies? Return -1 if can not turn all people into zombies.
+#
+# Example
+# Example 1:
+#
+# Input:
+# [[0,1,2,0,0],
+#  [1,0,0,2,1],
+#  [0,1,0,0,0]]
+# Output:
+# 2
+# Example 2:
+#
+# Input:
+# [[0,0,0],
+#  [0,0,0],
+#  [0,0,1]]
+# Output:
+# 4
+
 DELTAS = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+WALL = 2
+ZOMBIE = 1
+PEOPLE = 0
+
+from collections import deque
 
 
 class Solution:
@@ -9,46 +38,47 @@ class Solution:
 
     def zombie(self, grid):
         # write your code here
-        if len(grid) == 0 or len(grid[0]) == 0:
+        visited = set()
+        queue = deque([])
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == ZOMBIE:
+                    queue.append((i, j))
+                    visited.add((i, j))
+        num_day = -1
+        while queue:
+            num_day += 1
+            for _ in range(len(queue)):
+                zombie_x, zombie_y = queue.popleft()
+                grid[zombie_x][zombie_y] = ZOMBIE
+                for dx, dy in DELTAS:
+                    new_x, new_y = zombie_x + dx, zombie_y + dy
+                    if self.is_valid(grid, new_x, new_y) and (new_x, new_y) not in visited:
+                        visited.add((new_x, new_y))
+                        new_zombie = (new_x, new_y)
+                        queue.append(new_zombie)
+
+        if self.no_one_alive(grid):
+            return num_day
+        else:
             return -1
 
-        zombies = []
-
+    def no_one_alive(self,grid):
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                if grid[i][j] == 1:
-                    zombies.append((i, j))
+                if grid[i][j] == PEOPLE:
+                    return False
+        return True
 
-        days = 0
-        while zombies:
-            days += 1
-            new_zombies = []
-            for zombie_x, zombie_y in zombies:
-                for dx, dy in DELTAS:
-                    new_zombie = (zombie_x + dx, zombie_y + dy)
-                    if self.is_valid_infect(new_zombie[0], new_zombie[1], grid):
-                        new_zombies.append(new_zombie)
-                        grid[new_zombie[0]][new_zombie[1]] = 1
-            zombies = new_zombies
+    def is_valid(self, grid, x, y):
+        return 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] == PEOPLE
 
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 0:
-                    return -1
 
-        return days -1 
+import numpy as np
 
-    def is_valid_infect(self, i, j, grid):
-        # the zombie can move up, down, left, right, but not hit another zobie or wall.
-        num_row = len(grid)
-        num_col = len(grid[0])
+grid = np.array([[0, 1, 2, 0, 0], [1, 0, 0, 2, 1], [0, 1, 0, 0, 0]])
+sol = Solution()
+assert sol.zombie(grid=grid) == 2
 
-        if 0 <= i < num_row and 0 <= j < num_col and grid[i][j] == 0:
-            return True
-        else:
-            return False
-
-# import numpy as np
-# grid = np.array([[0,1,2,0,0],[1,0,0,2,1],[0,1,0,0,0]])
-# sol = Solution()
-# sol.zombie(grid=grid)
+grid = np.array([[0,2,0], [2,2,0], [2,0,1]])
+assert sol.zombie(grid) == -1

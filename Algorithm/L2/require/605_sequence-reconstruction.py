@@ -80,12 +80,11 @@ class Solution:
 
         # init all the neighbors
         for seq in seqs:
-            for i in range(0, len(seq)-1):
-                node, neighbor_node = seq[i], seq[i+1]
+            for i in range(0, len(seq) - 1):
+                node, neighbor_node = seq[i], seq[i + 1]
                 graph[node].add(neighbor_node)
 
         return graph
-
 
     def get_node_to_indegree_mapping(self, graph):
         # return a dictionary, where key is the node and value is the indegree of each node
@@ -99,4 +98,10 @@ class Solution:
 
 
 sol = Solution()
-sol.sequenceReconstruction(org=[1], seqs=[])
+assert sol.sequenceReconstruction(org=[1], seqs=[]) == False
+assert sol.sequenceReconstruction(org=[1, 2, 3], seqs=[[1, 2], [1, 3]]) == False
+assert sol.sequenceReconstruction(org=[1, 2, 3], seqs=[[1, 2]]) == False
+assert sol.sequenceReconstruction(org=[1, 2, 3], seqs=[[1, 2], [1, 3], [2, 3]]) == True
+assert sol.sequenceReconstruction(org=[4, 1, 5, 2, 6, 3], seqs=[[5, 2, 6, 3], [4, 1, 5, 2]]) == True
+
+

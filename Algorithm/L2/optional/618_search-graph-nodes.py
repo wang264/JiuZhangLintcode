@@ -1,39 +1,10 @@
-"""
-#Definition for a undirected graph node
+# Definition for a undirected graph node
 
 
 class UndirectedGraphNode:
     def __init__(self, x):
         self.label = x
         self.neighbors = []
-
-
-from collections import deque
-
-class Solution:
-    
-    #@param: graph: a list of Undirected graph node
-    #@param: values: a hash mapping, <UndirectedGraphNode, (int)value>
-    #@param: node: an Undirected graph node
-    #@param: target: An integer
-    #@return: a node
-    
-    def searchNode(self, graph, values, node, target):
-        # write your code here
-        visited = set()
-        q = deque([graph])
-
-        while q:
-            curr_node = q.popleft()
-            visited.add(id(curr_node))
-            if values[curr_node] == target:
-                return curr_node
-
-            for neighbor in node.neighbors:
-                if id(neighbor) not in visited:
-                    q.append(neighbor)
-
-        return None
 
 
 def build_graph(input_str: str, values: list) -> list:
@@ -47,15 +18,9 @@ def build_graph(input_str: str, values: list) -> list:
 
     return nodes
 
-all_nodes = build_graph(input_str='{1,2,3,4#2,1,3#3,1#4,1,5#5,4}', values=[3,4,5,50,50])
-
-sol=Solution()
-
-values = dict(zip(all_nodes, [3,4,5,50,50]))
-sol.searchNode(graph=all_nodes[0], values=values, node=all_nodes[0], target=50)
-"""
-
 from collections import deque
+
+
 class Solution:
     # @param {UndirectedGraphNode[]} graph a list of undirected graph node
     # @param {dict} values a dict, <UndirectedGraphNode, (int)value>
@@ -69,7 +34,7 @@ class Solution:
             return node
 
         del values[node]
-        
+
         while q:
             head = q.popleft()
             for n in head.neighbors:
@@ -79,3 +44,11 @@ class Solution:
                     del values[n]
                     q.append(n)
         return None
+
+
+all_nodes = build_graph(input_str='{1,2,3,4#2,1,3#3,1#4,1,5#5,4}', values=[3, 4, 5, 50, 50])
+
+sol = Solution()
+
+values = dict(zip(all_nodes, [3, 4, 5, 50, 50]))
+sol.searchNode(graph=all_nodes[0], values=values, node=all_nodes[0], target=50)

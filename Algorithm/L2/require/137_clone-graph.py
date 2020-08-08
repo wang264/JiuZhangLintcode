@@ -1,48 +1,70 @@
-"""
-Definition for a undirected graph node
+# 137. Clone Graph
+# 中文English
+# Clone an undirected graph. Each node in the graph contains a label and a list of its neighbors.
+# Nodes are labeled uniquely.
+#
+# You need to return a deep copied graph, which has the same structure as the original graph, and any
+# changes to the new graph will not have any effect on the original graph.
+#
+# Example
+# Example1
+#
+# Input:
+# {1,2,4#2,1,4#4,1,2}
+# Output:
+# {1,2,4#2,1,4#4,1,2}
+# Explanation:
+# 1------2
+#  \     |
+#   \    |
+#    \   |
+#     \  |
+#       4
+# Clarification
+# How we serialize an undirected graph: http://www.lintcode.com/help/graph/
+
+
 class UndirectedGraphNode:
     def __init__(self, x):
         self.label = x
         self.neighbors = []
-"""
+
 
 from collections import deque
 
 
 class Solution:
+    """
+    @param node: A undirected graph node
+    @return: A undirected graph node
+    """
+
     def cloneGraph(self, node):
+        # write your code here
         if node is None:
-            return node
-
-        root = node
-        # get the nodes from the old graph
-        old_nodes = self.get_nodes_bfs(start_node=node)
-
+            return None
+        begin_node = node
         # build a mapping from old node to new node
-        old_to_new = {}
-        for node in old_nodes:
-            old_to_new[node] = UndirectedGraphNode(x=node.label)
+        old_node_to_new_node = dict()
 
-        # then we fix the neighbors
-        for old_node in old_nodes:
-            new_node = old_to_new[old_node]
-            for old_neighbor in old_node.neighbors:
-                new_neighbor = old_to_new[old_neighbor]
-                new_node.neighbors.append(new_neighbor)
-
-        return old_to_new[root]
-
-    def get_nodes_bfs(self, start_node) -> set:
-        q = deque([start_node])
-        nodes = set()
+        # use bfs to search for all nodes in the old graph and create them
+        visited = set()
+        visited.add(node)
+        q = deque([node])
         while q:
             node = q.popleft()
-            # add to list if never visit
-            if node not in nodes:
-                nodes.add(node)
-            # append each neighbor to the list if we never visit them before.
-            for neighbor in node.neighbors:
-                if neighbor not in nodes:
-                    q.append(neighbor)
+            old_node_to_new_node[node] = UndirectedGraphNode(node.label)
+            for neighbor_node in node.neighbors:
+                if neighbor_node in visited:
+                    continue
+                visited.add(neighbor_node)
+                q.append(neighbor_node)
 
-        return nodes
+        # fix the neighbors
+        for old_node, new_node in old_node_to_new_node.items():
+            for neighbor_node in old_node.neighbors:
+                new_node.neighbors.append(old_node_to_new_node[neighbor_node])
+
+        return old_node_to_new_node[begin_node]
+
+
