@@ -29,3 +29,11 @@ class Solution:
             return 1 / answer
         else:
             return answer
+
+
+
+
+sol = Solution()
+sol.myPow(x=9.88023, n=3)
+
+sol.myPow(x=2, n=-2147483648)

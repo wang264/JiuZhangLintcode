@@ -21,6 +21,8 @@
 # The minimum value in an array is 1.
 # 注意事项
 # 你可以假设数组中不存在重复元素。
+#
+
 class Solution:
     """
     @param nums: a rotated sorted array
@@ -29,20 +31,22 @@ class Solution:
 
     def findMin(self, nums):
         # write your code here
-        if not nums:
-            return -1
-
+        n = len(nums)
         left = 0
-        right = len(nums) - 1
+        right = n - 1
 
         while left + 1 < right:
             mid = (left + right) // 2
-            if nums[mid] > nums[right]:
+            if nums[mid] < nums[n - 1]:
+                right = mid
+            elif nums[mid] > nums[n - 1]:
                 left = mid
             else:
                 right = mid
 
         return min(nums[left], nums[right])
 
-# sol = Solution()
-# sol.findMin(nums=[4, 5, 6, 7, 0, 1, 2])
+
+sol = Solution()
+sol.findMin(nums=[4, 5, 6, 7, 0, 1, 2])
+sol.findMin(nums=[2, 1])

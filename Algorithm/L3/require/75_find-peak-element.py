@@ -26,24 +26,34 @@
 # 数组保证至少存在一个峰
 # 如果数组存在多个峰，返回其中任意一个就行
 # 数组至少包含 3 个数
+
+
 class Solution:
     """
     @param A: An integers array.
     @return: return any of peek positions.
     """
+
     def findPeak(self, A):
         # write your code here
+        n = len(A)
         left = 0
-        right = len(A) - 1
+        right = n - 1
 
-        while left+2 < right:  # exist when there are three element
-            mid = (left+right) // 2
-            if A[mid-1]<A[mid]<A[mid+1]:  # strictly increasing means at least one peak at right
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if A[mid - 1] < A[mid]:
                 left = mid
-            elif A[mid-1]>A[mid]>A[mid+1]:  # strictly decreasing means at least one peak at left.
+            elif A[mid - 1] > A[mid]:
                 right = mid
-            elif A[mid-1]<A[mid]>A[mid+1]: # found a peak
-                return mid
-            else:  # A[mid-1]>A[mid]<A[mid+1] , we found a bottom, peak at either place
-                left = mid
-        return left+1
+            else:
+                pass
+
+        if A[left]>A[right]:
+            return left
+        else:
+            return right
+
+sol= Solution()
+sol.findPeak(A=[1, 2, 1, 3, 4, 5, 7, 6])
+sol.findPeak(A=[1,2,3,4,1])

@@ -34,7 +34,7 @@
 # O(log(n) + log(m))
 # 时间复杂度
 
-class Solution:
+class Solution2:
     """
     @param matrix: matrix, a list of lists of integers
     @param target: An integer
@@ -88,3 +88,50 @@ class Solution:
             return True
         else:
             return False
+
+
+class Solution:
+    """
+    @param matrix: matrix, a list of lists of integers
+    @param target: An integer
+    @return: a boolean, indicate whether matrix contains target
+    """
+
+    def searchMatrix(self, matrix, target):
+        # write your code here
+        num_rows = len(matrix)
+        num_cols = len(matrix[0])
+        n = num_rows * num_cols
+        left = 0
+        right = n - 1
+
+        while left + 1 < right:
+            mid = (left + right) // 2
+            i, j = self.array_idx_to_matrix_coordinate(mid, num_cols)
+            if matrix[i][j] < target:
+                left = mid
+            elif matrix[i][j] > target:
+                right = mid
+            else:
+                return True
+
+        left_i, left_j = self.array_idx_to_matrix_coordinate(left, num_cols)
+        right_i, right_j = self.array_idx_to_matrix_coordinate(right, num_cols)
+
+        if matrix[left_i][left_j] == target or matrix[right_i][right_j] == target:
+            return True
+        else:
+            return False
+
+    def array_idx_to_matrix_coordinate(self, array_idx, matrix_num_cols):
+        matrix_row_idx = array_idx // matrix_num_cols
+        matrix_col_idx = array_idx % matrix_num_cols
+
+        return matrix_row_idx, matrix_col_idx
+
+
+sol = Solution()
+matrix = [[1, 3, 5, 7],
+          [10, 11, 16, 20],
+          [23, 30, 34, 50]]
+sol.searchMatrix(matrix=matrix, target=3)

@@ -18,6 +18,8 @@
 # k是一个非负整数，并且总是小于已排序数组的长度。
 # 给定数组的长度是正整数, 不会超过 10^4
 # 数组中元素的绝对值不会超过 10^4
+
+
 class Solution:
     """
     @param A: an integer array
@@ -25,6 +27,7 @@ class Solution:
     @param k: An integer
     @return: an integer array
     """
+
     def kClosestNumbers(self, A, target, k):
         if k == 0 or len(A) == 0:
             return []
@@ -35,7 +38,7 @@ class Solution:
         right = closest_idx + 1
 
         # need to find the k-1 additional closest number
-        for _ in range(k-1):
+        for _ in range(k - 1):
             if left < 0:
                 rslt.append(A[right])
                 right += 1
@@ -47,10 +50,10 @@ class Solution:
 
             if self.is_left_closer(A, left, right, target):
                 rslt.append(A[left])
-                left -=1
+                left -= 1
             else:
                 rslt.append(A[right])
-                right +=1
+                right += 1
 
         return rslt
 
@@ -61,10 +64,6 @@ class Solution:
             return True
         else:
             return False
-
-
-
-
 
     def find_closest_index(self, nums, target):
         """
@@ -85,3 +84,7 @@ class Solution:
             return left
         else:
             return right
+
+
+sol = Solution()
+sol.kClosestNumbers(A=[1, 4, 6, 8], target=3, k=3)

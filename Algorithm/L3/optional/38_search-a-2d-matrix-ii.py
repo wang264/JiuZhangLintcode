@@ -28,7 +28,7 @@
 # O(m+n) time and O(1) extra space
 
 
-class Solution:
+class Solution2:
     """
     @param matrix: An list of lists of integers
     @param target: An integer you want to search in matrix
@@ -53,3 +53,44 @@ class Solution:
             elif matrix[i][j] > target:
                 i -= 1
         return count
+
+
+class Solution:
+    """
+    @param matrix: A list of lists of integers
+    @param target: An integer you want to search in matrix
+    @return: An integer indicate the total occurrence of target in the given matrix
+    """
+
+    def searchMatrix(self, matrix, target):
+        # write your code here
+        num_rows = len(matrix)
+        num_cols = len(matrix[0])
+        # start from top right corner
+        i = 0
+        j = num_cols - 1
+
+        count = 0
+        while i < num_rows and j >= 0:
+            # the other answers can not be in the same row and same column
+            if matrix[i][j] == target:
+                i += 1
+                j -= 1
+                count += 1
+            # if matrix[i][j] is less than target, matrix[i][0] < matrix[i][1]< ...matrix[i][j]<target
+            # so we search for the next row
+            elif matrix[i][j] < target:
+                i += 1
+            # if matrix[i][j] is larger than target, target<matrix[i][j] < matrix[i+1][j]< ...matrix[num_rows-1][j]
+            # so we search for the previous column
+            elif matrix[i][j] > target:
+                j -= 1
+
+        return count
+
+
+sol = Solution()
+matrix = [[1, 3, 5, 7],
+          [2, 4, 7, 8],
+          [3, 5, 9, 10]]
+sol.searchMatrix(matrix,3)

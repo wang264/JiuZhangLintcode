@@ -1,4 +1,18 @@
-import math
+# 235. Prime Factorization
+# 中文English
+# Prime factorize a given integer.
+#
+# Example
+# Example 1:
+#
+# Input: 10
+# Output: [2, 5]
+# Example 2:
+#
+# Input: 660
+# Output: [2, 2, 3, 5, 11]
+# Notice
+# You should sort the factors in ascending order.
 
 
 class Solution:
@@ -22,3 +36,29 @@ class Solution:
             result.append(num)
 
         return result
+
+
+class Solution2:
+    """
+    @param num: An integer
+    @return: an integer array
+    """
+
+    def primeFactorization(self, num):
+        # write your code here
+        rslt = []
+        factor = 2
+        while num != 1 and factor * factor <= num:
+            while num % factor == 0:
+                num = num // factor
+                rslt.append(factor)
+            factor += 1
+
+        if num != 1:
+            rslt.append(num)
+        return rslt
+
+
+sol = Solution()
+sol.primeFactorization(num=660)
+sol.primeFactorization(num=41)
