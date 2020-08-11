@@ -1,52 +1,43 @@
-# # Definition of TreeNode:
-# class TreeNode:
-#     def __init__(self, val):
-#         self.val = val
-#         self.left, self.right = None, None
-
-#     def __repr__(self):
-#         left_val = self.left.val if self.left is not None else '-'
-#         right_val = self.right.val if self.right is not None else '-'
-
-#         return "V:{} L:{} R:{}".format(self.val, left_val, right_val)
-#     # def __repr__(self):
-#     #     return 'val:{}  left:{}  right:{}'.format(self.val, self.left,self.right)
-
-# from typing import Tuple
-# def build_tree_from_list(arr):
-#     # build tree nodes
-#     if len(arr) == 0:
-#         return None
-#     if len(arr) == 1:
-#         return TreeNode(arr[0])
-
-#     # fix left and right child
-#     tree_nodes = [TreeNode(val) if val is not None else None for val in arr ]
-#     root = tree_nodes[0]
-
-#     count = len(tree_nodes)
-#     for i in range(count):
-#         if tree_nodes[i] is None:
-#             continue
-
-#         left_child_idx = i*2 + 1
-#         right_child_idx = i*2 + 2
-
-#         if left_child_idx<count:
-#             tree_nodes[i].left = tree_nodes[left_child_idx]
-
-#         if right_child_idx< count:
-#             tree_nodes[i].right = tree_nodes[right_child_idx]
-
-#     return root, tree_nodes
-
+# 95. Validate Binary Search Tree
+# 中文English
+# Given a binary tree, determine if it is a valid binary search tree (BST).
+#
+# Assume a BST is defined as follows:
+#
+# The left subtree of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+# A single node tree is a BST
+# Example
+# Example 1:
+#
+# Input:  {-1}
+# Output：true
+# Explanation：
+# For the following binary tree（only one node）:
+# 	      -1
+# This is a binary search tree.
+# Example 2:
+#
+# Input:  {2,1,4,#,#,3,5}
+# Output: true
+# For the following binary tree:
+# 	  2
+# 	 / \
+# 	1   4
+# 	   / \
+# 	  3   5
+# This is a binary search tree.
 
 import sys
+
+
 class Solution:
     """
     @param root: The root of binary tree.
     @return: True if the binary tree is BST, or false
     """
+
     def isValidBST(self, root):
         _, _, flag = self.helper(root)
         return flag
@@ -57,13 +48,20 @@ class Solution:
         :return: tree_min_val, tree_max_val, tree_sum
         """
         if root is None:
-            return sys.maxsize, -1*sys.maxsize, True
+            return sys.maxsize, -1 * sys.maxsize, True
 
         left_min, left_max, left_valid = self.helper(root.left)
         right_min, right_max, right_valid = self.helper(root.right)
 
-        if left_valid and right_valid and root.val> left_max and root.val<right_min:
+        if left_valid and right_valid and root.val > left_max and root.val < right_min:
             return min(left_min, right_min, root.val), max(left_max, right_max, root.val), True
         else:
             return min(left_min, right_min, root.val), max(left_max, right_max, root.val), False
 
+
+from helperfunc import build_tree_breadth_first
+
+sol = Solution()
+
+root = build_tree_breadth_first(sequence=[2, 1])
+sol.isValidBST(root=root)

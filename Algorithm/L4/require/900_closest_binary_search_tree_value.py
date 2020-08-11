@@ -1,3 +1,30 @@
+# 900. Closest Binary Search Tree Value
+# 中文English
+# Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.
+#
+# Example
+# Example1
+#
+# Input: root = {5,4,9,2,#,8,10} and target = 6.124780
+# Output: 5
+# Explanation：
+# Binary tree {5,4,9,2,#,8,10},  denote the following structure:
+#         5
+#        / \
+#      4    9
+#     /    / \
+#    2    8  10
+# Example2
+#
+# Input: root = {3,2,4,1} and target = 4.142857
+# Output: 4
+# Explanation：
+# Binary tree {3,2,4,1},  denote the following structure:
+#      3
+#     / \
+#   2    4
+
+
 class TreeNode:
     def __init__(self, val):
         self.val = val
@@ -5,7 +32,6 @@ class TreeNode:
 
 
 def build_binary_tree_from_list(arr):
-
     tree_nodes = [TreeNode(val) if val is not None else None for val in arr]
 
     root = tree_nodes[0]
@@ -15,25 +41,17 @@ def build_binary_tree_from_list(arr):
         if tree_nodes[i] is None:
             continue
 
-        left_index = i*2+1
-        right_index = i*2+2
+        left_index = i * 2 + 1
+        right_index = i * 2 + 2
 
-        if left_index<n:
+        if left_index < n:
             tree_nodes[i].left = tree_nodes[left_index]
 
-        if right_index<n:
+        if right_index < n:
             tree_nodes[i].right = tree_nodes[right_index]
 
     return root
 
-
-"""
-Definition of TreeNode:
-class TreeNode:
-    def __init__(self, val):
-        self.val = val
-        self.left, self.right = None, None
-"""
 
 class Solution:
     """
@@ -41,11 +59,13 @@ class Solution:
     @param target: the given target
     @return: the value in the BST that is closest to the target
     """
+
     def closestValue(self, root, target):
         # write your code here
 
         val, dis = self.closest_value_helper(root, target)
         return val
+
     def closest_value_helper(self, root, target):
         if root is None:
             return None, None
@@ -59,39 +79,33 @@ class Solution:
             return root.val, root_distance
         # only right child
         elif left_val is None and right_val is not None:
-            if right_distance<root_distance:
+            if right_distance < root_distance:
                 return right_val, right_distance
             else:
                 return root.val, root_distance
         # only left child
         elif left_val is not None and right_val is None:
-            if left_distance<root_distance:
+            if left_distance < root_distance:
                 return left_val, left_distance
             else:
                 return root.val, root_distance
         # have both left and right child
         else:
-            if root_distance <= left_distance and root_distance<= right_distance:
+            if root_distance <= left_distance and root_distance <= right_distance:
                 return root.val, root_distance
             elif left_distance <= root_distance and left_distance <= right_distance:
                 return left_val, left_distance
-            elif right_distance <=root_distance and right_distance <=left_distance:
+            elif right_distance <= root_distance and right_distance <= left_distance:
                 return right_val, right_distance
 
 
-sol = Solution()
-
-root = build_binary_tree_from_list(arr=[5,4,9,2,None,8,10])
-
-sol.closestValue(root, 4.6)
-
-'''
-class Solution:
+class Solution2:
     """
     @param root: the given BST
     @param target: the given target
     @return: the value in the BST that is closest to the target
     """
+
     def closestValue(self, root, target):
         if root is None:
             return None
@@ -138,4 +152,19 @@ class Solution:
             else:
                 return upper
 
-'''
+
+sol = Solution()
+root = build_binary_tree_from_list(arr=[5, 4, 9, 2, None, 8, 10])
+sol.closestValue(root, 4.6)
+
+
+class Solution:
+    """
+    @param root: the given BST
+    @param target: the given target
+    @return: the value in the BST that is closest to the target
+    """
+
+    def closestValue(self, root, target):
+        # write your code here
+        node = root

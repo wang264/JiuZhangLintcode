@@ -1,44 +1,33 @@
-# # # Definition of TreeNode:
-# class TreeNode:
-#     def __init__(self, val):
-#         self.val = val
-#         self.left, self.right = None, None
+# 902. Kth Smallest Element in a BST
+# 中文English
+# Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
 #
-#     def __repr__(self):
-#         left_val = self.left.val if self.left is not None else '-'
-#         right_val = self.right.val if self.right is not None else '-'
+# Example
+# Example 1:
 #
-#         return "V:{} L:{} R:{}".format(self.val, left_val, right_val)
-#     # def __repr__(self):
-#     #     return 'val:{}  left:{}  right:{}'.format(self.val, self.left,self.right)
+# Input：{1,#,2},2
+# Output：2
+# Explanation：
+# 	1
+# 	 \
+# 	  2
+# The second smallest element is 2.
+# Example 2:
 #
-# from typing import Tuple
-# def build_tree_from_list(arr):
-#     # build tree nodes
-#     if len(arr) == 0:
-#         return None
-#     if len(arr) == 1:
-#         return TreeNode(arr[0])
+# Input：{2,1,3},1
+# Output：1
+# Explanation：
+#   2
+#  / \
+# 1   3
+# The first smallest element is 1.
+# Challenge
+# What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently?
+# How would you optimize the kthSmallest routine?
 #
-#     # fix left and right child
-#     tree_nodes = [TreeNode(val) if val is not None else None for val in arr ]
-#     root = tree_nodes[0]
-#
-#     count = len(tree_nodes)
-#     for i in range(count):
-#         if tree_nodes[i] is None:
-#             continue
-#
-#         left_child_idx = i*2 + 1
-#         right_child_idx = i*2 + 2
-#
-#         if left_child_idx<count:
-#             tree_nodes[i].left = tree_nodes[left_child_idx]
-#
-#         if right_child_idx< count:
-#             tree_nodes[i].right = tree_nodes[right_child_idx]
-#
-#     return root
+# Notice
+# You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
+
 
 class Solution:
     """
@@ -72,7 +61,34 @@ class Solution:
             else:
                 break
 
+
+class Solution2:
+    """
+    @param root: the given BST
+    @param k: the given k
+    @return: the kth smallest element in BST
+    """
+    def kthSmallest(self, root, k):
+        # write your code here
+        dummy = TreeNode(-1)
+        dummy.right = root
+        stack = [dummy]
+
+        for _ in range(k):
+            node = stack.pop()
+            if node.right:
+                node = node.right
+                while node:
+                    stack.append(node)
+                    node = node.left
+            # if not stack:
+            #     return None
+
+        return stack[-1].val
+
 # sol = Solution()
 # root = build_tree_from_list([1,None,2])
 #
 # sol.kthSmallest(root, 2)
+
+
