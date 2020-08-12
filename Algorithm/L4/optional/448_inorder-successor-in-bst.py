@@ -57,3 +57,24 @@ class Solution:
         # the must must in the right subtree or it does not exist
         elif p.val > root.val:
             self.helper(root.right, p)
+
+
+class Solution2:
+    """
+    @param: root: The root of the BST.
+    @param: p: You need find the successor node of p.
+    @return: Successor of p.
+    """
+
+    def inorderSuccessor(self, root, p):
+        # write your code here
+        self.successor = None
+        while root:
+            if p.val < root.val:
+                self.successor = root
+                root = root.left
+            else:
+                root = root.right
+
+        return self.successor
+

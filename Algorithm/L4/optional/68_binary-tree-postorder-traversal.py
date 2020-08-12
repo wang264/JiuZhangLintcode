@@ -6,6 +6,7 @@ class TreeNode:
         self.left, self.right = None, None
 """
 
+
 # class Solution:
 #     """
 #     @param root: A Tree
@@ -42,6 +43,7 @@ class Solution:
     @param root: A Tree
     @return: Postorder in ArrayList which contains node values.
     """
+
     # by using two stacks
     def postorderTraversal(self, root):
         # write your code here
@@ -52,7 +54,6 @@ class Solution:
         # Initialize two stacks
         s1 = []
         s2 = []
-
 
         s1.append(root)
         while s1:
@@ -70,7 +71,9 @@ class Solution:
 
         return result
 
-# sol = Solution()
-# root, _ = build_tree_from_list([1,2,3,4,5,None, None,None, 7])
-#
-# sol.postorderTraversal(root)
+
+from helperfunc import build_tree_breadth_first
+
+sol = Solution()
+root = build_tree_breadth_first([1, 2, 3, 4, 5, 6, 7])
+sol.postorderTraversal(root=root)

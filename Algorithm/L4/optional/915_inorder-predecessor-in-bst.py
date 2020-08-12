@@ -6,7 +6,8 @@ class TreeNode:
         self.left, self.right = None, None
 """
 
-#https://www.geeksforgeeks.org/inorder-predecessor-successor-given-key-bst/
+
+# https://www.geeksforgeeks.org/inorder-predecessor-successor-given-key-bst/
 # 1. If root is NULL then return
 # 2. if key is found then
 #     a. If its left subtree is not null
@@ -52,7 +53,33 @@ class Solution:
         elif p.val < root.val:
             self.helper(root.left, p)
 
-        # If key is larger than root's key, go to left subtree
+        # If key is larger than root's key, go to right subtree
         elif p.val > root.val:
             self.pre = root
             self.helper(root.right, p)
+
+
+class Solution2:
+
+    def inorderPredecessor(self, root, p):
+        self.pre = None
+        self.dfs(root, p)
+        return self.pre
+
+    def dfs(self, root, p):
+        if not root:
+            return
+        if root.val >= p.val:
+            self.dfs(root.left, p)
+        else:
+            self.pre = root
+            self.dfs(root.right, p)
+
+
+from helperfunc import build_tree_breadth_first
+
+root = build_tree_breadth_first([20, 1, 40, None, None, 35])
+p = root.right.left
+
+sol = Solution2()
+sol.inorderPredecessor(root, p)
