@@ -1,52 +1,35 @@
-# # Definition of TreeNode:
-# class TreeNode:
-#     def __init__(self, val):
-#         self.val = val
-#         self.left, self.right = None, None
+# 88. Lowest Common Ancestor of a Binary Tree
+# 中文English
+# Given the root and two nodes in a Binary Tree.Find the lowest common ancestor(LCA) of the two nodes.
 #
-#     def __repr__(self):
-#         left_val = self.left.val if self.left is not None else '-'
-#         right_val = self.right.val if self.right is not None else '-'
+# The lowest common ancestor is the node with largest depth which is the ancestor of both nodes.
 #
-#         return "V:{} L:{} R:{}".format(self.val, left_val, right_val)
-#     # def __repr__(self):
-#     #     return 'val:{}  left:{}  right:{}'.format(self.val, self.left,self.right)
+# Example
+# Example
+# 1:
 #
-# from typing import Tuple
-# def build_tree_from_list(arr):
-#     # build tree nodes
-#     if len(arr) == 0:
-#         return None
-#     if len(arr) == 1:
-#         return TreeNode(arr[0])
+# Input：{1}, 1, 1
+# Output：1
+# Explanation： For the following binary tree（only one node）: 1
+# LCA(1, 1) = 1
 #
-#     # fix left and right child
-#     tree_nodes = [TreeNode(val) if val is not None else None for val in arr ]
-#     root = tree_nodes[0]
+# Example 2:
 #
-#     count = len(tree_nodes)
-#     for i in range(count):
-#         if tree_nodes[i] is None:
-#             continue
+# Input：{4, 3, 7,  # ,#,5,6},3,5
+# Output：4
+# Explanation： For the following binary tree:
 #
-#         left_child_idx = i*2 + 1
-#         right_child_idx = i*2 + 2
+#             4
+#            / \
+#           3    7
+#               / \
+#              5   6
 #
-#         if left_child_idx<count:
-#             tree_nodes[i].left = tree_nodes[left_child_idx]
-#
-#         if right_child_idx< count:
-#             tree_nodes[i].right = tree_nodes[right_child_idx]
-#
-#     return root, tree_nodes
+# LCA(3, 5) = 4
+# Notice
+# Assume two nodes are exist in tree.
 
-"""
-Definition of TreeNode:
-class TreeNode:
-    def __init__(self, val):
-        this.val = val
-        this.left, this.right = None, None
-"""
+
 
 
 class Solution:
@@ -83,15 +66,13 @@ class Solution:
         b_exist_in_tree = b_in_left_tree or b_in_right_tree or root is node_b
 
         if a_exist_in_tree and b_exist_in_tree:
-            if lca_left_tree and lca_right_tree:
+            if not lca_left_tree and not lca_right_tree:
                 return True, True, root
             elif lca_left_tree and not lca_right_tree:
                 return True, True, lca_left_tree
             elif not lca_left_tree and lca_right_tree:
                 return True, True, lca_right_tree
-            else:
-                # if there are no lca in either subtree the lca must be root
-                return True, True, root
+
         else:
             # if either of A or B does not exist in this tree. it means no LCA, so we return None for LCA.
             return a_exist_in_tree, b_exist_in_tree, None
