@@ -15,6 +15,7 @@ def build_graph(input_str: str, values: list) -> list:
 
     return nodes
 
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -29,7 +30,7 @@ class TreeNode:
 
 def build_tree_breadth_first(sequence):
     # Create a list of trees
-    forest = [TreeNode(x) if x is not None else None for x in sequence ]
+    forest = [TreeNode(x) if x is not None else None for x in sequence]
 
     # Fix up the left- and right links
     count = len(forest)
@@ -46,3 +47,20 @@ def build_tree_breadth_first(sequence):
         print('[{}]: {}'.format(index, tree))
     return forest[0]  # root
 
+
+# Definition of ListNode
+class ListNode(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+
+    def __repr__(self):
+        return 'val:{} next:{}'.format(self.val, self.next.val if self.next else None)
+
+
+def build_linked_list_from_array(vals):
+    nodes = [ListNode(val) for val in vals]
+    for i in range(len(nodes) - 1):
+        nodes[i].next = nodes[i + 1]
+
+    return nodes[0]

@@ -13,7 +13,6 @@
 # 2 + 7 + 8 = 17
 # 7 + 8 + 5 = 20
 
-
 class Solution:
     """
     @param nums: a list of integers.
@@ -23,28 +22,24 @@ class Solution:
 
     def winSum(self, nums, k):
         # write your code here
-        if nums is None:
+        if k == 0:
             return []
-        n = len(nums)
-        if n < k:
-            return []
-        if n == k:
-            return [nums(k)]
+
         rslt = []
-        slow = 0
-        fast = 0
-        sum_val = 0
-        while fast < k:
-            sum_val += nums[fast]
-            fast += 1
+        window_sum = 0
+        # add the first k element
+        for i in range(k):
+            window_sum += nums[i]
 
-        rslt.append(sum_val)
-
-        while fast < n:
-            sum_val = sum_val - nums[slow] + nums[fast]
-            rslt.append(sum_val)
-            fast += 1
-            slow += 1
+        rslt.append(window_sum)
+        i = k  # the k+1 th element
+        kick_out = 0
+        while i < len(nums):
+            window_sum += nums[i]
+            window_sum -= nums[kick_out]
+            rslt.append(window_sum)
+            i += 1
+            kick_out += 1
 
         return rslt
 

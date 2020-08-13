@@ -25,3 +25,32 @@ class Solution:
                 left, right = left + 1, right - 1
 
         return left
+
+
+class Solution2:
+    """
+    @param nums: The integer array you should partition
+    @param k: An integer
+    @return: The index after partition
+    """
+
+    def partitionArray(self, nums, k):
+        # write your code here
+        n = len(nums)
+        if n == 0:
+            return 0
+
+        # pivot is  k
+        prev = -1
+        for curr in range(0, n):
+            if nums[curr] >= k:
+                continue
+            else:  # if nums[curr] < k
+                prev += 1
+                nums[prev], nums[curr] = nums[curr], nums[prev]
+
+        return prev + 1
+
+
+sol = Solution2()
+sol.partitionArray(nums=[3, 2, 2, 1], k=2)
