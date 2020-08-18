@@ -18,6 +18,7 @@
 # 3.返回的所有组合之间可以是任意顺序.
 # 4.解集不能包含重复的组合.
 
+
 class Solution:
     """
     @param candidates: A list of integers
@@ -27,7 +28,7 @@ class Solution:
 
     def combinationSum(self, candidates, target):
         # write your code here
-        candidates = list(sorted(set(candidates)))
+        candidates = list(sorted(set(candidates)))  # 去重复
         curr_path = []
         rslt = []
         start_idx = 0
@@ -51,5 +52,41 @@ class Solution:
             curr_path.pop()  # backtracking
 
 
-# sol = Solution()
-# sol.combinationSum([2, 3, 6, 7], 7)
+# 不同的地方在于，不用set去去重复。
+class Solution2:
+    """
+    @param candidates: A list of integers
+    @param target: An integer
+    @return: A list of lists of integers
+    """
+
+    def combinationSum(self, candidates, target):
+        # write your code here
+        candidates.sort()
+        rslt = []
+        self.dfs_helper(candidates, curr_idx=0, curr_path=[], rslt=rslt, target=target)
+        return rslt
+
+    def dfs_helper(self, candidates, curr_idx, curr_path, rslt, target):
+        n = len(candidates)
+        if curr_idx == n:
+            return
+        if target == 0:
+            rslt.append(curr_path[:])
+            return
+        if target < 0:
+            return
+
+        for idx in range(curr_idx, n):
+            # 去重复
+            if idx > 0 and candidates[idx] == candidates[idx - 1]:
+                continue
+            curr_path.append(candidates[idx])
+            self.dfs_helper(candidates, idx, curr_path, rslt, target - candidates[idx])
+            curr_path.pop()
+
+
+sol = Solution2()
+assert sol.combinationSum([2, 3, 6, 7], 7) == [[2, 2, 3], [7]]
+
+assert sol.combinationSum([2, 2, 3], 5) == [[2, 3]]

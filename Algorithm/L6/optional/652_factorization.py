@@ -14,6 +14,8 @@
 # 注意事项
 # 组合中的元素(a1,a2,...,ak)必须是非降序。(即，a1≤a2≤...≤ak)。
 # 结果集中不能包含重复的组合。
+
+
 class Solution:
     # @param {int} n an integer
     # @return {int[][]} a list of combination
@@ -42,3 +44,32 @@ class Solution:
             item.append(n)
             self.helper(result, item, 1, n)
             item.pop()
+
+import math
+
+class Solution2:
+    """
+    @param n: An integer
+    @return: a list of combination
+    """
+
+    def getFactors(self, n):
+        # write your code here
+        result = []
+        self.dfs(2, n, [], result)
+        return result
+
+    def dfs(self,start, n, path, result):
+        if path:
+            result.append(path + [n])
+
+        for i in range(start, int(math.sqrt(n)) + 1):
+            if n % i == 0:
+                path.append(i)
+                self.dfs(i, n // i, path, result)
+                path.pop()
+
+
+sol = Solution2()
+sol.getFactors(n=8)
+sol.getFactors(n=32)

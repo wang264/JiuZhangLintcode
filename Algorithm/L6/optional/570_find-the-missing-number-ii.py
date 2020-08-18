@@ -55,3 +55,42 @@ class Solution:
                 used[num] = False
 
         return None
+
+
+class Solution2:
+    """
+    @param n: An integer
+    @param str: a string with number from 1-n in random order and miss one number
+    @return: An integer
+    """
+
+    def findMissing2(self, n, str):
+        # write your code here
+        used_number = set()
+        return self.dfs_helper(n, 0, str, used_number)
+
+    def dfs_helper(self, n, start_idx, str, used_number):
+        if start_idx == len(str):
+            for num in range(1, n + 1):
+                if num not in used_number:
+                    return num
+        else:
+            if str[start_idx] == '0':
+                return None
+            for num_of_char in range(1, 3): # we can parse 1 or 2 chars
+                if start_idx + num_of_char > len(str):
+                    continue
+                parsed_int = int(str[start_idx:start_idx + num_of_char])
+                if parsed_int in used_number or parsed_int > n:
+                    continue
+                used_number.add(parsed_int)
+                rslt = self.dfs_helper(n, start_idx + num_of_char, str, used_number)
+                if rslt is not None:
+                    return rslt
+                used_number.remove(parsed_int)
+
+
+sol = Solution2()
+sol.findMissing2(n=20, str="19201234567891011121314151618")
+sol.findMissing2(n=12, str="1234567891011")
+sol.findMissing2(n=6, str='56412')

@@ -82,3 +82,9 @@ class Solution:
             row_string = ''.join(['Q' if c == col else '.' for c in range(n)])
             board.append(row_string)
         return board
+
+
+sol = Solution()
+assert sol.solveNQueens(n=1) == [['Q']]
+
+assert sol.solveNQueens(n=2) == []

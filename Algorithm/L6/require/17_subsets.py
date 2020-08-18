@@ -51,20 +51,21 @@ class Solution:
 
         for i in range(start_idx, len(nums)):
             curr_set.append(nums[i])
-            self.dfs_helper(nums, i+1, curr_set, rslt)
+            self.dfs_helper(nums, i + 1, curr_set, rslt)
             curr_set.pop()
+
 
 #
 # sol = Solution()
 # sol.subsets(nums=[1,2,3])
 
 class Solution2:
-    #一层一层的决策每个数要不要放到最后的集合里。
+    # 一层一层的决策每个数要不要放到最后的集合里。
     def subsets(self, nums):
         nums.sort()
         index = 0
         rslt = []
-        curr_set =[]
+        curr_set = []
         self.search(nums, curr_set, index, rslt)
         return rslt
 
@@ -74,8 +75,40 @@ class Solution2:
             return
 
         # option 1. not include current number in the subset
-        self.search(nums, curr_set, index+1, rslt)
+        self.search(nums, curr_set, index + 1, rslt)
         # option 2, include current number in the subset
         curr_set.append(nums[index])
-        self.search(nums, curr_set, index+1, rslt)
+        self.search(nums, curr_set, index + 1, rslt)
         curr_set.pop()
+
+
+class Solution3:
+    """
+    @param nums: A set of numbers
+    @return: A list of lists
+    """
+
+    def subsets(self, nums):
+        # write your code here
+        nums.sort()
+        rslt = []
+        self.dfs_helper(nums, 0, [], rslt)
+        rslt.insert(0, list())
+        return rslt
+
+    def dfs_helper(self, nums, start_idx, curr_path, rslt):
+        n = len(nums)
+        if start_idx == n:
+            return
+
+        # select someting
+        for idx in range(start_idx, n):
+            curr_path.append(nums[idx])
+            rslt.append(curr_path[:])
+            self.dfs_helper(nums, idx + 1, curr_path, rslt)
+            curr_path.pop()
+
+
+sol = Solution3()
+sol.subsets(nums=[1, 2, 3])
+sol.subsets(nums=[0])

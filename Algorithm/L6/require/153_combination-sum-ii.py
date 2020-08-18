@@ -58,3 +58,8 @@ class Solution:
             # dfs递归的时候+1, 跳过重复使用当前数字。
             self.dfs_helper(candidates, target - candidates[i], i + 1, curr_path, rslt)
             curr_path.pop()  # backtracking
+
+
+sol = Solution()
+sol.combinationSum2(num=[7, 1, 2, 5, 1, 6, 10], target=8) == [[1,1,6],[1,2,5],[1,7],[2,6]]
+sol.combinationSum2(num=[2,3,6,7], target=7)
