@@ -19,7 +19,7 @@ class DataStream:
         if c in self.dupChars:
             return
         ######################################################
-        # 如果是第一次看到，我們加到鏈表中
+        # 如果是第一次看到，我們加到现在的鏈表的最后一个
         if c not in self.charToPrev:
             node = ListCharNode(c)
             self.charToPrev[c] = self.tail
@@ -59,3 +59,6 @@ class Solution:
         return ds.firstUniqueChar()
         # if ask for the index
         # return str.find(ds.firstUniqueChar())
+
+sol = Solution()
+sol.firstUniqChar(str='aabccdbcazl')

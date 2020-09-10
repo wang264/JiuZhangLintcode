@@ -1,16 +1,18 @@
-# 544. 前K大数
+# 612. K Closest Points
 # 中文English
-# 在一个数组中找到前K大的数
+# Given some points and an origin point in two-dimensional space, find k points which are nearest to the origin.
+# Return these points sorted by distance, if they are same in distance, sorted by the x-axis, and if
+# they are same in the x-axis, sorted by y-axis.
 #
-# 样例
-# 样例1
+# Example
+# Example 1:
 #
-# 输入: [3, 10, 1000, -99, 4, 100] 并且 k = 3
-# 输出: [1000, 100, 10]
-# 样例2
+# Input: points = [[4,6],[4,7],[4,4],[2,5],[1,1]], origin = [0, 0], k = 3
+# Output: [[1,1],[2,5],[4,4]]
+# Example 2:
 #
-# 输入: [8, 7, 6, 5, 4, 3, 2, 1] 并且 k = 5
-# 输出: [8, 7, 6, 5, 4]
+# Input: points = [[0,0],[0,9]], origin = [3, 1], k = 1
+# Output: [[0,0]]
 
 """
 Definition for a point.
@@ -21,7 +23,6 @@ class Point:
 """
 
 import heapq
-
 
 class Solution:
     """
@@ -52,3 +53,5 @@ class Solution:
 
     def getDistance(self, a, b):
         return (a.x - b.x) ** 2 + (a.y - b.y) ** 2
+
+

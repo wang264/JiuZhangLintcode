@@ -64,21 +64,22 @@ class Stack:
     def isEmpty(self):
         return len(self.q1) == 0
 
-# s = Stack()
-# s.push(1)
-# s.push(2)
-# s.pop()
-# s.push(3)
-# s.isEmpty() #// return false
-# s.top() #// #return 2
-# s.pop()
-# s.isEmpty() #// return true
-#
-# s = Stack()
-# s.push(1)
-# s.pop()
-# s.push(2)
-# s.isEmpty()
-# s.top()
-# s.pop()
-# s.isEmpty()
+
+s = Stack()
+s.push(1)
+s.push(2)
+s.pop()
+s.push(3)
+s.isEmpty() #// return false
+s.top() #// #return 2
+s.pop()
+s.isEmpty() #// return true
+
+s = Stack()
+s.push(1)
+s.pop()
+s.push(2)
+s.isEmpty()
+s.top()
+s.pop()
+s.isEmpty()

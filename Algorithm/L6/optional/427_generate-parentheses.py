@@ -9,6 +9,7 @@
 # 输入: 2
 # 输出: ["()()", "(())"]
 
+
 class Solution:
     """
     @param n: n pairs

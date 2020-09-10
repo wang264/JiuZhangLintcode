@@ -12,6 +12,7 @@
 # 注意事项
 # 你可以以任意顺序返回所有合法的IP地址.
 
+
 class Solution:
     """
     @param s: the IP string
@@ -20,24 +21,29 @@ class Solution:
 
     def restoreIpAddresses(self, s):
         # write your code here
+        num_of_number_left = 4
+        curr_path = []
         rslt = []
-        curr_ip = []
-        num_dot_left = 3
-        curr_idx = 0
-        self.dfs_helper(s, num_dot_left, curr_ip, curr_idx, rslt)
-        return sorted(rslt)
+        self.dfs_helper(s, num_of_number_left, 0, curr_path, rslt)
+        return rslt
 
-    def dfs_helper(self, s, num_dot_left, curr_ip, curr_idx, rslt):
-        if num_dot_left == 0 and self.is_valid(s[curr_idx:]):
-            curr_ip.append(s[curr_idx:])
-            rslt.append('.'.join(curr_ip))
-            curr_ip.pop()
+    def dfs_helper(self, s, numbers_left, curr_index, curr_path, rslt):
+        if numbers_left == 0:
+            if curr_index == len(s):
+                rslt.append('.'.join(curr_path[:]))
+            return
 
-        for num_char in range(1, 4):  # can choose 1,2 or 3 character
-            if curr_idx + num_char < len(s) and self.is_valid(s[curr_idx:curr_idx + num_char]):
-                curr_ip.append(s[curr_idx:curr_idx + num_char])
-                self.dfs_helper(s, num_dot_left - 1, curr_ip, curr_idx + num_char, rslt)
-                curr_ip.pop()
+        # length of 1,2,3 char
+        for length in range(1, 4):
+            idx_start = curr_index
+            if idx_start+length > len(s):
+                continue
+
+            sub_string = s[idx_start:idx_start+length]
+            if self.is_valid(sub_string):
+                curr_path.append(sub_string)
+                self.dfs_helper(s, numbers_left - 1, idx_start+length, curr_path, rslt)
+                curr_path.pop()
 
     def is_valid(self, s):
         if len(s) == 0:
@@ -51,3 +57,8 @@ class Solution:
             return True
         else:
             return False
+
+
+sol =Solution()
+assert sol.restoreIpAddresses(s="25525511135") == ["255.255.11.135", "255.255.111.35"]
+assert sol.restoreIpAddresses(s='1111') == ['1.1.1.1']

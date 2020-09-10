@@ -1,37 +1,11 @@
 # 545.
-# Top
-# k
-# Largest
-# Numbers
-# II
+# Top k Largest Numbers II
 # 中文English
-# Implement
-# a
-# data
-# structure, provide
-# two
-# interfaces:
+# Implement a data structure, provide two interfaces:
 #
-# add(number).Add
-# a
-# new
-# number in the
-# data
-# structure.
-# topk().Return
-# the
-# top
-# k
-# largest
-# numbers in this
-# data
-# structure.k is given
-# when
-# we
-# create
-# the
-# data
-# structure.
+# add(number).Add a new number in the data structure. topk().Return the top k largest numbers in this data
+# structure.k is given when we create the data structure.
+
 # 样例
 # Example1
 #
@@ -54,15 +28,12 @@
 # [1000, 10, 3]
 # [1000, 10, 4]
 # [1000, 100, 10]
-#
+
 # Explanation:
 # s = new
 # Solution(3);
-# >> create
-# a
-# new
-# data
-# structure, and k = 3.
+# >> create a new data structure, and k = 3.
+
 # s.add(3)
 # s.add(10)
 # s.topk()
@@ -77,6 +48,7 @@
 # s.add(100)
 # s.topk()
 # >> return [1000, 100, 10]
+
 # Example2
 #
 # Input:
@@ -94,11 +66,7 @@
 # Explanation:
 # s = new
 # Solution(1);
-# >> create
-# a
-# new
-# data
-# structure, and k = 1.
+# >> create a new data structure, and k = 1.
 # s.add(3)
 # s.add(10)
 # s.topk()

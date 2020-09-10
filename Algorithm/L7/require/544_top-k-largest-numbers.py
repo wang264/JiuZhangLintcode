@@ -8,7 +8,7 @@ class Solution:
     def topk(self, nums, k):
         # write your code here
         # in descending order
-        self.quick_select(nums, 0, len(nums)-1, k)
+        self.quick_select(nums, 0, len(nums) - 1, k)
         res = nums[:k]
         res.sort(reverse=True)
         return res
@@ -48,3 +48,33 @@ class Solution:
         # and then the k-th largest would be k-(left - start) largest.
         if left - start + 1 <= k:
             self.quick_select(nums, left, end, k - (left - start))
+
+
+import heapq
+
+
+class Solution2:
+    """
+    @param nums: an integer array
+    @param k: An integer
+    @return: the top k largest numbers in array
+    """
+
+    def topk(self, nums, k):
+        # write your code here
+        min_heap = []
+        for num in nums:
+            heapq.heappush(min_heap, num)
+            if len(min_heap) > k:
+                heapq.heappop(min_heap)
+
+        rslt = []
+        while len(min_heap):
+            rslt.append(heapq.heappop(min_heap))
+
+        rslt.reverse()
+        return rslt
+
+
+sol = Solution2()
+sol.topk(nums=[3, 10, 1000, -99, 4, 100], k=3)

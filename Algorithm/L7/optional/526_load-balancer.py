@@ -77,6 +77,7 @@ class LoadBalancer:
     def pick(self):
         idx = random.randint(0, len(self.nums) - 1)
         return self.nums[idx]
+
 #
 # # write your code here
 # l = LoadBalancer()

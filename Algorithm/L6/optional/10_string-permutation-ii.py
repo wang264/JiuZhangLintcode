@@ -54,3 +54,9 @@ class Solution:
             # backtracking
             curr_path.pop()
             selected[i] = False
+
+
+sol = Solution()
+sol.stringPermutation2(str='aabb')
+
+
