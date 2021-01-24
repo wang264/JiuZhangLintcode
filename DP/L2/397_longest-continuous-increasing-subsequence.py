@@ -56,3 +56,30 @@ class Solution:
 
 sol = Solution()
 sol.longestIncreasingContinuousSubsequence([5, 1, 2, 3, 4])
+
+
+class Solution2:
+    """
+    @param A: An array of Integer
+    @return: an integer
+    """
+
+    def longestIncreasingContinuousSubsequence(self, A):
+        if len(A) == 0:
+            return 0
+            # write your code here
+        return max(self.helper(A), self.helper(list(reversed(A))))
+
+    def helper(self, A):
+        dp = [None] * len(A)
+        # dp[i]= longest continuous increasing subsequence(from left to right)  ending at index i
+
+        dp[0] = 1
+        for i in range(1, len(A)):
+            dp[i] = 1
+
+            if A[i - 1] >= A[i]:
+                continue
+            dp[i] = max(dp[i - 1] + 1, dp[i])
+
+        return max(dp)
