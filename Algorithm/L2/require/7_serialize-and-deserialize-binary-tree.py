@@ -138,6 +138,8 @@ def build_tree_breadth_first(sequence):
 
 sol = Solution()
 root = build_tree_breadth_first([3,9,20,None,None,15,7])
+root.right.left.left = TreeNode(100)
+root.right.left.right = TreeNode(101)
 data = sol.serialize(root)
 print(data)
 root_2 = sol.deserialize(data)
@@ -145,3 +147,5 @@ root_2 = sol.deserialize(data)
 
 data = sol.serialize(None)
 root_3 = sol.deserialize(data)
+
+
