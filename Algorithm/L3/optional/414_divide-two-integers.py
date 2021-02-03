@@ -56,7 +56,8 @@ class Solution:
             return 2147483647
         return ans
 
+
 sol = Solution()
 sol.divide(100, 9)
 
-
+assert sol.divide(-1, 1) == -1

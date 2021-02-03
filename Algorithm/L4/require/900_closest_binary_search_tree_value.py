@@ -153,18 +153,6 @@ class Solution2:
                 return upper
 
 
-sol = Solution()
+sol = Solution2()
 root = build_binary_tree_from_list(arr=[5, 4, 9, 2, None, 8, 10])
 sol.closestValue(root, 4.6)
-
-
-class Solution:
-    """
-    @param root: the given BST
-    @param target: the given target
-    @return: the value in the BST that is closest to the target
-    """
-
-    def closestValue(self, root, target):
-        # write your code here
-        node = root
