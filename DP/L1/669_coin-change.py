@@ -56,3 +56,37 @@ class Solution:
 
 coins = [9, 9]
 amount = 0
+
+import sys
+
+
+class Solution2:
+    """
+    @param coins: a list of integer
+    @param amount: a total amount of money amount
+    @return: the fewest number of coins that you need to make up
+    """
+
+    def coinChange(self, coins, amount):
+        # write your code here
+        # dp[i] = fewest number of coins to make up to that amount i.
+
+        dp = [sys.maxsize] * (amount + 1)
+        # $0 can be made from 0 coins
+        dp[0] = 0
+
+        for i in range(1, amount + 1):
+            min_number_coin = sys.maxsize
+            for coin in coins:
+                if i - coin < 0:
+                    continue
+                min_number_coin = min(dp[i - coin], min_number_coin)
+            dp[i] = min_number_coin + 1
+
+        if dp[amount] >= sys.maxsize:
+            return -1
+        else:
+            return dp[amount]
+
+sol  = Solution2()
+sol.coinChange(coins=[21,31,51], amount=91)

@@ -42,6 +42,7 @@ class Solution:
             dp[1] = 0
         else:
             dp[1] = 1
+
         for i in range(2, len(s) + 1):
             # decode last number in to char
             if s[i - 1] != '0':

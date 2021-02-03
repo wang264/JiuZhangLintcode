@@ -32,6 +32,7 @@
 #
 # Super Star: Extra memory usage O(1)
 
+from helperfunc import TreeNode
 
 class BSTIterator:
     """
@@ -44,7 +45,7 @@ class BSTIterator:
         dummy = TreeNode(-1)
         dummy.right = root
         self.stack.append(dummy)
-        self.next()
+        # self.next()
 
     """
     @return: True if there has next node, or false
