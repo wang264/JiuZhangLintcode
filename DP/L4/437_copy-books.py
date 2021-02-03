@@ -43,7 +43,7 @@ class Solution:
     # f[k][i] = the minimum amount of time for k persons to finish first i books.
 
     # 枚举最后一个人。
-    # f[k][j] = min(   max(f[k-1][j], A[j]+...A[i-1] )   for 0<=j<=i) )
+    # f[k][i] = min(   max(f[k-1][j], A[j]+...A[i-1] )   for 0<=j<=i) )
     def copyBooks_slow(self, pages, k):
         # write your code here
         n = len(pages)

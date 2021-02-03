@@ -59,7 +59,7 @@ class ConnectingGraph:
 
     def find(self, x):  # 查询
         # already root node
-        if self.father == x:
+        if self.father[x] == x:
             return x
 
         # first we find the root node
