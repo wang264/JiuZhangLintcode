@@ -73,7 +73,7 @@ class Solution:
             # 阶段2，4
             for j in range(2, 4 + 1, 2):
                 # f[i][j] = max(f[i-1][j] + (prices[i - 1] - prices[i - 2]), f[i-1][j-1])
-                f[i][j] = f[i - 1][j - 1]  #buy
+                f[i][j] = f[i - 1][j - 1]  #just bought the stock on ith date.
                 if i > 1 and f[i - 1][j] != -sys.maxsize:
                     f[i][j] = max(f[i][j], f[i - 1][j] + (prices[i - 1] - prices[i - 2]))  #keep state
 

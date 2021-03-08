@@ -59,3 +59,35 @@ class Solution:
                     dp[i][j] = min(dp[i][j], dp[i - 1][k] + costs[i - 1][j])
 
         return min(dp[number_of_houses][0], dp[number_of_houses][1], dp[number_of_houses][2])
+
+
+class Solution2:
+    """
+    @param costs: n x 3 cost matrix
+    @return: An integer, the minimum cost to paint all houses
+    """
+    import sys
+    def minCost(self, costs):
+        # write your code here
+        n = len(costs)
+        n_color = len(costs[0])
+
+        # dp[i][k] minimum cost to paint first i houses and the ith house color is color k
+        dp = [[sys.maxsize] * n_color for _ in range(n + 1)]
+
+        for k in range(n_color):
+            dp[0][k] = 0  # 0 cost to paint first zero houses
+
+        for i in range(1, n + 1):
+            for curr_color in range(n_color):
+                for prev_color in range(n_color):
+                    if curr_color == prev_color:
+                        continue
+                    dp[i][curr_color] = min(dp[i][curr_color], dp[i - 1][prev_color] + costs[i - 1][curr_color])
+
+        return min(dp[n])
+
+sol=Solution2()
+sol.minCost(costs=[[1,2,3]])
+
+

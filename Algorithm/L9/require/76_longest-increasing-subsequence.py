@@ -56,3 +56,30 @@ class Solution:
                     dp[curr] = max(dp[curr], dp[prev] + 1)
         return max(dp)
 
+
+class Solution2:
+    """
+    @param nums: An integer array
+    @return: The length of LIS (longest increasing subsequence)
+    """
+
+    def longestIncreasingSubsequence(self, nums):
+        # write your code here
+        n = len(nums)
+        if n == 0:
+            return 0
+
+        dp = [1] * n  # dp[i] LIS of ending at index i
+
+        dp[0] = 1
+        for i in range(1, n):
+            for k in range(i):
+                if nums[i] > nums[k]:
+                    dp[i] = max(dp[i],dp[k] + 1)
+
+        return max(dp)
+
+sol = Solution2()
+sol.longestIncreasingSubsequence(nums=[9,3,6,2,7])
+
+

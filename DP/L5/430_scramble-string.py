@@ -59,49 +59,47 @@ class Solution:
     @return: whether s2 is a scrambled string of s1
     """
 
-    # convert from S --to----> T
-    # 没有优化之前f[i][j][k][h] = 能否从S[i....j] 变换成 T[k...h]
-
-    # 因为两个串的长度都一样，所以子串拿起始位置加上长度表示
-    # f[i][j][k] 能否从S[i....i+k] 变换成 T[j...j+k]
-
-    # 枚举两个，1）在哪里劈成两半 2）是否交换左右儿子
     def isScramble(self, s1, s2):
+        # write your code here
         S = s1
         T = s2
-        # write your code here
-        m = len(s1)
-        n = len(s2)
-        if m != n:  # 长度不同就不能换
+
+        if len(S) != len(T):  # 长度不同就不能换
             return False
 
-        # f[n][n][n+1]
+        # f[i][j][k] if we can use swap to convert
+        # f[i:i+k+1] to f[j:j+k+1], k = char length
+        # f is of size n*n*(n+1)
+        n = len(s1)
         f = [[[False] * (n + 1) for _ in range(n)] for _ in range(n)]
 
-        # length =1
         for i in range(n):
             for j in range(n):
-                f[i][j][1] = (S[i] == T[j])
-
+                if S[i] == T[j]:
+                    f[i][j][1] = True
+                else:
+                    f[i][j][1] = False
         # 长度从2到N
-        for length in range(2, n + 1):
-            for i in range(0, n - length + 1):  # s[i.....i+length-1]
-                for j in range(0, n - length + 1):  # s[j.....j+length-1]
+        for length in range(2, n + 1):  # iterate length from 2 to n
+            for i in range(0, n - length + 1):  # S[i.....i+length-1]
+                for j in range(0, n - length + 1):  # T[i.....i+length-1]
                     # break into S1 and S2
-                    # S1 has length w, S2 have length (length-w)
-                    for w in range(1, length):
+                    # S1 has length l_1, S2 have length l_2 = (length-w)
+                    for l_1 in range(1, length):
+                        l_2 = length - l_1
                         # no swap
                         # S1--->T1 and S2--->T2
-                        if f[i][j][w] and f[i + w][j + w][length-w]:
+                        if f[i][j][l_1] and f[i + l_1][j + l_1][l_2]:
                             f[i][j][length] = True
                             break
                         # swap
                         # S1--->T2 and S2--->T1
-                        if f[i][j + length - w][w] and f[i + w][j][length - w]:
+                        if f[i][j + l_2][l_1] and f[i + l_1][j][l_2]:
                             f[i][j][length] = True
                             break
 
-
         return f[0][0][n]
+
+
 s1 = "rgeat"
 s2 = "great"

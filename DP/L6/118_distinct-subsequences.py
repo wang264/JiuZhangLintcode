@@ -23,31 +23,35 @@
 
 
 class Solution:
-    # @param S, T: Two string.
-    # @return: Count the number of distinct subsequences
-    # A=S
-    # B在A中出现多少次，B的每一个字符都要在A中出现。
-    def numDistinct(self, S, T):
-        # write your code here
+    """
+    @param S: A string
+    @param T: A string
+    @return: Count the number of distinct subsequences
+    """
 
+    def numDistinct(self, S, T):
+        # @param S, T: Two string.
+        # @return: Count the number of distinct subsequences
+        # A=S B=T
+        # B在A中出现多少次，B的每一个字符都要在A中出现。
+        # write your code here
         m = len(S)
         n = len(T)
-        dp = [[0 for j in range(n + 1)] for i in range(m + 1)]
 
+        # dp[i][j] number of distinct subsquence for first i letter of S
+        # and first j letter of T
         # dp[i][j]= B的前j个字符在A的前i个字符中出现多少次
         # 要看B的最后一个字符，是否和A的最后一个字符，结成对子
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
 
         for i in range(m + 1):
-            dp[i][0] = 1
+            dp[i][0] = 1  # remove all char in S
 
-        for i in range(0, m + 1):
-            for j in range(0, n + 1):
-                if j == 0:
-                    dp[i][0] = 1
-                    continue
-                if i == 0:
-                    dp[0][j] = 0
-                    continue
+        for j in range(1, n + 1):
+            dp[0][j] = 0  # can not do that.
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
                 # B的尾巴和A的尾巴不相连，那看A的前面的部分和B能组成多少个。-
                 dp[i][j] = dp[i - 1][j]
                 # B的尾巴和A的尾巴相连，那看A的前面的部分和B前面的部分能组成多少个。
@@ -61,3 +65,6 @@ sol = Solution()
 S = "b"
 T = "b"
 sol.numDistinct(S, T)
+
+sol = Solution()
+sol.numDistinct(S="babgbag", T="bag")

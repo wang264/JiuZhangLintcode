@@ -54,3 +54,36 @@ class Solution:
 
 
 values = [3, 2, 2]
+sol=Solution()
+sol.firstWillWin(values)
+import sys
+
+
+class Solution2:
+    """
+    @param values: a vector of integers
+    @return: a boolean which equals to true if the first player will win
+    """
+
+    # dp[i][j] the maximum score difference(A-B) when A is first to act and facing number
+    # values[i].....values[j]  i<=j
+    def firstWillWin(self, values):
+        n = len(values)
+        dp = [[-1 * sys.maxsize] * n for _ in range(n)]
+
+        for i in range(n):
+            dp[i][i] = values[i]
+
+        for length in range(2, n + 1):  # iterate for each length
+            for j in range(length - 1, n):  # end_index
+                i = j - length + 1  # start_index
+                # facing nums[i].....nums[j]
+                # you can take nums[i] ---->another player get dp[i+1][j]
+                dp[i][j] = max(dp[i][j], values[i] - dp[i + 1][j])
+                # you can take nums[j[ ---->another player get dp[i][j-1]
+                dp[i][j] = max(dp[i][j], values[j] - dp[i][j - 1])
+
+        return dp[0][n - 1] > 0
+
+sol = Solution2()
+sol.firstWillWin(values = [3, 2, 2])

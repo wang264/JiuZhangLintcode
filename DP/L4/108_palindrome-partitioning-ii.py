@@ -89,6 +89,10 @@ class Solution:
         f = [sys.maxsize] * (n + 1)
 
         f[0] = 0  # 0 palindrome split from the  first i characters of S---> S[0:i] ( S[0], S[1],...S[n-1] )
+        #  if i = 5  j = 0,1,2,3,4
+        #  0  1  2  3  4
+        #              i
+        #              j
         for i in range(1, n + 1):
             for j in range(0, i):
                 if palin[j][i - 1]:

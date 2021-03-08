@@ -45,8 +45,8 @@ class Solution:
 
         # 计算顺序，从分段的从短到长
         for length in range(2, n + 1):
-            for i in range(0, n - length + 1):
-                j = i + length - 1
+            for j in range(length - 1, n):  # end_index
+                i = j - length + 1  # start_index
                 # 情况一：
                 if s[i] == s[j]:
                     f[i][j] = f[i + 1][j - 1] + 2
@@ -55,3 +55,8 @@ class Solution:
                     f[i][j] = max(f[i + 1][j], f[i][j - 1])
 
         return f[0][n - 1]
+
+
+
+sol=Solution()
+sol.longestPalindromeSubseq(s="bbbab")
