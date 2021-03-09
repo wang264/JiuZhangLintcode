@@ -52,6 +52,7 @@ class RandomizedSet:
         # write your code here
         return self.nums[random.randint(0, len(self.nums) - 1)]
 
+
 # Your RandomizedSet object will be instantiated and called as such:
 # obj = RandomizedSet()
 # param = obj.insert(val)

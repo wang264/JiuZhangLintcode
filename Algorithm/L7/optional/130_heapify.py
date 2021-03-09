@@ -24,6 +24,7 @@
 # N/8 个数最多交换 2 次，N/16 个数最多交换 3 次。
 # 所以 O(N/4 * 1 + N/8 * 2 + N/16 * 3 + ... + 1 * LogN) = O(N)O(N/4∗1+N/8∗2+N/16∗3+...+1∗LogN)=O(N)
 
+
 class Solution:
     """
     @param: A: Given an integer array

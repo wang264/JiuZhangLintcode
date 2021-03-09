@@ -80,3 +80,46 @@ s1 = "abc"
 s2 = "a"
 s3 = "b"
 sol.isInterleave(s1, s2, s3)
+
+sol = Solution()
+s1 = "aabcc"
+s2 = "dbbca"
+s3 = "aadbbcbcac"
+sol.isInterleave(s1, s2, s3)
+
+
+class Solution2:
+    """
+    @param s1: A string
+    @param s2: A string
+    @param s3: A string
+    @return: Determine whether s3 is formed by interleaving of s1 and s2
+    """
+
+    def isInterleave(self, s1, s2, s3):
+        # write your code here
+        l_1 = len(s1)
+        l_2 = len(s2)
+        if l_1 + l_2 != len(s3):
+            return False
+
+        dp = [[False] * (l_2 + 1) for _ in range(l_1 + 1)]
+
+        for i in range(0, l_1 + 1):
+            for j in range(0, l_2 + 1):
+                if i == 0 and j == 0:
+                    dp[i][j] = True
+                    continue
+                if i == 0:
+                    dp[0][j] = s2[0:j] == s3[0:j]
+                    continue
+                if j == 0:
+                    dp[i][0] = s1[0:i] == s3[0:i]
+                    continue
+                if s3[i + j - 1] == s1[i - 1]:
+                    dp[i][j] = dp[i][j] or dp[i - 1][j]
+
+                if s3[i + j - 1] == s2[j - 1]:
+                    dp[i][j] = dp[i][j] or dp[i][j - 1]
+
+        return dp[l_1][l_2]

@@ -49,6 +49,6 @@ class Solution:
                 p3 += 1
             l.append(minV)
         return l[-1]
-#
-# sol=Solution()
-# sol.nthUglyNumber(n=20)
+
+sol=Solution()
+sol.nthUglyNumber(n=20)

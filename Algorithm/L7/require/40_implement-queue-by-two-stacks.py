@@ -40,6 +40,7 @@
 # 注意事项
 # 假设调用pop()函数的时候，队列非空
 
+
 class MyQueue:
 
     def __init__(self):

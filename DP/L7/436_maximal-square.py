@@ -51,3 +51,8 @@ class Solution:
                 rslt = max(rslt, f[i][j] ** 2)
 
         return rslt
+
+# 1  1  0  0
+# 1  1  1  1
+# 1  1  1  1
+# 0  1  1  1

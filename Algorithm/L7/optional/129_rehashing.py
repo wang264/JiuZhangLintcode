@@ -52,6 +52,7 @@ class ListNode(object):
 """
 
 
+
 class Solution:
     """
     @param hash_table: A list of The first node of linked list

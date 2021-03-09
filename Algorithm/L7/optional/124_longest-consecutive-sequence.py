@@ -39,8 +39,9 @@ class Solution:
         max_len, table = 0, {num: True for num in nums}
 
         for num in nums:
-            # if num-1 in nums, then we skip num from now,
-            if num - 1 in table:
+            # if num-1 in the 'nums', then we skip num from now,
+            # because we alway only want to start from the lowest consecutive number.
+            if num - 1 in table.keys():
                 continue
             else:
                 num_hi = num + 1

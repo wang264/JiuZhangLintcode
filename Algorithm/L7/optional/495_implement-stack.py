@@ -69,3 +69,5 @@ class Stack:
     def isEmpty(self):
         # write your code here
         return self.dummy.next is None
+
+
