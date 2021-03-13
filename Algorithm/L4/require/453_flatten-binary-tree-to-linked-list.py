@@ -72,3 +72,52 @@ from helperfunc import TreeNode, build_tree_breadth_first
 sol = Solution()
 root = build_tree_breadth_first(sequence=[1, 2, 5, 3, 4, None, 6])
 linked_list = sol.flatten(root)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+from collections import deque
+
+
+class SolutionOutOfMemory:
+    """
+    @param root: a TreeNode, the root of the binary tree
+    @return: nothing
+    """
+
+    def flatten(self, root):
+        # write your code here
+        if root is None:
+            return None
+        q_traverse = deque([])
+        q_nodes = deque([])
+        q_traverse.append(root)
+
+        while q_traverse:
+            node = q_traverse.popleft()
+            q_nodes.append(node)
+
+            if node.right:
+                q_nodes.appendleft(node.right)
+            if node.left:
+                q_nodes.appendleft(node.left)
+
+        # fix the relationship.
+        root = q_nodes[0]
+
+        while len(q_nodes) > 1:
+            node = q_nodes.popleft()
+            node.left = None
+            node.right = q_nodes[0]
+
+        return root
+
+
+sol = SolutionOutOfMemory()
+root = build_tree_breadth_first(sequence=[1, 2, 5, 3, 4, None, 6])
+linked_list = sol.flatten(root)

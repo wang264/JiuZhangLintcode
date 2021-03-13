@@ -42,38 +42,38 @@
 # We guarantee that the A array does not have the same string
 
 class TrieNode:
-  def __init__(self):
-    self.replacement = None
-    self.children = {}
+    def __init__(self):
+        self.replacement = None
+        self.children = {}
 
 
 class Trie:
-  def __init__(self):
-    self.root = TrieNode()
+    def __init__(self):
+        self.root = TrieNode()
 
-  def insert(self, word, replacement):
-    root = self.root
-    for char in word:
-      root = root.children.setdefault(char, TrieNode())
-    root.replacement = replacement
+    def insert(self, word, replacement):
+        root = self.root
+        for char in word:
+            root = root.children.setdefault(char, TrieNode())
+        root.replacement = replacement
 
-  # 找到word前缀的最长replacement, 如果Trie中没有找到word的前缀, 那么返回word的
-  # 第一个char(这样做的原因是为了表示从word的下一个char重新开始找)
-  def search(self, word):
-    root, replacement = self.root, None
+    # 找到word前缀的最长replacement, 如果Trie中没有找到word的前缀, 那么返回word的
+    # 第一个char(这样做的原因是为了表示从word的下一个char重新开始找)
+    def search(self, word):
+        root, replacement = self.root, None
 
-    for char in word:
-      if char not in root.children:
-        break
+        for char in word:
+            if char not in root.children:
+                break
 
-      root = root.children[char]
-      if root.replacement is not None:
-        replacement = root.replacement
+            root = root.children[char]
+            if root.replacement is not None:
+                replacement = root.replacement
 
-    if replacement is None:
-      replacement = word[0]
+        if replacement is None:
+            replacement = word[0]
 
-    return replacement
+        return replacement
 
 
 # Trie
@@ -84,32 +84,34 @@ class Trie:
 # - m: a中每个单词长度的平均值
 # - n: s的长度
 class Solution:
-  """
-  @param a: The A array
-  @param b: The B array
-  @param s: The S string
-  @return: The answer
-  """
-  def stringReplace(self, a, b, s):
-    if not a or not b:
-      return s
+    """
+    @param a: The A array
+    @param b: The B array
+    @param s: The S string
+    @return: The answer
+    """
 
-    # 这一块代码整体: O(k * (m + n))
-    trie = Trie()
-    for i, word in enumerate(a): # O(k)
-      # 只有word是s的子串其才会被放到trie中, 这样就保证了每次search的时候, 每次
-      # 匹配s[i]做的都是有用功
-      if word in s: # O(n)
-        trie.insert(word, b[i]) # O(m)
+    def stringReplace(self, a, b, s):
+        if not a or not b:
+            return s
 
-    # 这一块代码整体: O(n)
-    result = []
-    while s:
-      replacement = trie.search(s)
-      result.append(replacement)
-      s = s[len(replacement):]
+        # 这一块代码整体: O(k * (m + n))
+        trie = Trie()
+        for i, word in enumerate(a):  # O(k)
+            # 只有word是s的子串其才会被放到trie中, 这样就保证了每次search的时候, 每次
+            # 匹配s[i]做的都是有用功
+            if word in s:  # O(n)
+                trie.insert(word, b[i])  # O(m)
 
-    return "".join(result)
+        # 这一块代码整体: O(n)
+        result = []
+        while s:
+            replacement = trie.search(s)
+            result.append(replacement)
+            s = s[len(replacement):]
+
+        return "".join(result)
+
 
 sol = Solution()
 sol.stringReplace(a=["ab", "aba"], b=["cc", "ccc"], s="ababa")

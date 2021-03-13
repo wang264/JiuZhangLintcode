@@ -73,3 +73,62 @@ class Solution:
                 self.bfs_helper(grid, x + dx, y + dy, visited)
         else:
             return
+
+
+from collections import deque
+
+DELTA = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+
+
+class Solution2:
+    """
+    @param grid: a boolean 2D matrix
+    @return: an integer
+    """
+
+    def numIslands(self, grid):
+        # write your code here
+        n_rows = len(grid)
+        if n_rows == 0:
+            return 0
+
+        n_cols = len(grid[0])
+
+        visited = set()
+        islands = 0
+        for i in range(n_rows):
+            for j in range(n_cols):
+                if grid[i][j] == 1:
+                    if (i, j) not in visited:
+                        visited.add((i, j))
+                        islands += 1
+                        self._bfs_helper(grid, i, j, visited)
+
+        return islands
+
+    def _bfs_helper(self, grid, i, j, visited):
+        q = deque([(i, j)])
+        while q:
+            for _ in range(len(q)):
+                curr_x, curr_y = q.popleft()
+
+                for d_x, d_y in DELTA:
+                    next_x, next_y = curr_x + d_x, curr_y + d_y
+                    if self.is_valid(grid, next_x, next_y) and grid[next_x][next_y] == 1 and (
+                    next_x, next_y) not in visited:
+                        visited.add((next_x, next_y))
+                        q.append((next_x, next_y))
+
+    def is_valid(self, grid, i, j):
+        return 0 <= i < len(grid) and 0 <= j < len(grid[0])
+
+
+grid = [
+    [1, 1, 0, 0, 0],
+    [0, 1, 0, 0, 1],
+    [0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1]
+]
+sol = Solution2()
+sol.numIslands(grid)

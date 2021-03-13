@@ -35,6 +35,7 @@ class Solution:
     @param k: the given k
     @return: the kth smallest element in BST
     """
+
     def kthSmallest(self, root, k):
 
         if root is None:
@@ -56,7 +57,7 @@ class Solution:
                 count += 1
                 if count == k:
                     return node.val
-                #if node.right:
+                # if node.right:
                 node = node.right
             else:
                 break
@@ -68,6 +69,7 @@ class Solution2:
     @param k: the given k
     @return: the kth smallest element in BST
     """
+
     def kthSmallest(self, root, k):
         # write your code here
         dummy = TreeNode(-1)
@@ -86,9 +88,41 @@ class Solution2:
 
         return stack[-1].val
 
+
 # sol = Solution()
 # root = build_tree_from_list([1,None,2])
 #
 # sol.kthSmallest(root, 2)
 
+from helperfunc import build_tree_breadth_first
 
+
+class Solution3:
+    """
+    @param root: the given BST
+    @param k: the given k
+    @return: the kth smallest element in BST
+    """
+
+    def kthSmallest(self, root, k):
+        self.val = None
+        self.count = k
+        # write your code here
+        self.traverse(root)
+        return self.val
+
+    def traverse(self,root):
+        if root is None:
+            return
+        self.traverse(root.left)
+        self.count = self.count - 1
+        if self.count == 0:
+            self.val = root.val
+            return
+        self.traverse(root.right)
+
+
+
+root = build_tree_breadth_first([5, 4, 9, 2, None, 8, 10])
+sol=Solution3()
+sol.kthSmallest(root,3)

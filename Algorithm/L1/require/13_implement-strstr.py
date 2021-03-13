@@ -44,3 +44,25 @@ class Solution:
                 return i
         
         return -1
+
+
+class Solution2:
+    """
+    @param source:
+    @param target:
+    @return: return the index
+    """
+
+    def strStr(self, source, target):
+        # Write your code here
+        len_s = len(source)
+        len_t = len(target)
+        if len_t == 0:
+            return 0
+
+            # for different starting point
+        for i in range(0, len_s - len_t + 1):
+            if source[i:i + len_t] == target:
+                return i
+
+        return -1

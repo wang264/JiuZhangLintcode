@@ -61,3 +61,32 @@ class Solution:
 sol = Solution()
 assert sol.isPalindrome(",.") == True
 assert sol.isPalindrome('1a2') == False
+
+
+class Solution:
+    """
+    @param s: A string
+    @return: Whether the string is a valid palindrome
+    """
+
+    def isPalindrome(self, s):
+        # write your code here
+        left = 0
+        right = len(s) - 1
+
+        while left < right:
+            while left < right and (not (s[left].isalpha() or  s[left].isnumeric())):
+                left += 1
+            while left < right and (not (s[right].isalpha() or  s[right].isnumeric())):
+                right -= 1
+            if left < right and s[left].upper() != s[right].upper():
+                return False
+            else:
+                left+=1
+                right-=1
+        return True
+
+
+
+sol = Solution()
+sol.isPalindrome(s="ab")

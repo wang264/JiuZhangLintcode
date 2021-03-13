@@ -14,38 +14,52 @@
 # 输入: n = 2, prerequisites = [[1,0],[0,1]]
 # 输出: false
 
+
 from collections import deque
 
 
 class Solution:
-    # @param {int} numCourses a total of n courses
-    # @param {int[][]} prerequisites a list of prerequisite pairs
-    # @return {boolean} true if can finish all courses or false
+    """
+    @param numCourses: a total of n courses
+    @param prerequisites: a list of prerequisite pairs
+    @return: true if can finish all courses or false
+    """
+
     def canFinish(self, numCourses, prerequisites):
-        directed_edges = {node: [] for node in range(numCourses)}
-        node_to_indegree = {node: 0 for node in range(numCourses)}
+        # write your code here
+        node_to_indegree = {i: 0 for i in range(numCourses)}
+        node_to_neighbors = {i: set() for i in range(numCourses)}
 
-        for this_course, pre_req_course in prerequisites:
-            directed_edges[pre_req_course].append(this_course)
-            node_to_indegree[this_course] += 1
+        visited = set()
+        for curr_course, prereq_course in prerequisites:
+            # contains duplicate edge, need to filter them out.
+            if (curr_course, prereq_course) in visited:
+                continue
+            visited.add((curr_course, prereq_course))
+            node_to_indegree[curr_course] += 1
+            node_to_neighbors[prereq_course].add(curr_course)
 
+        q = deque([])
         # start with the node with in degree of 0.
-        start_nodes = [node for node in node_to_indegree.keys() if node_to_indegree[node] == 0]
-        q = deque(start_nodes)
-        count = 0
+        for course, indegree in node_to_indegree.items():
+            if indegree == 0:
+                q.append(course)
 
-        while q:
-            node = q.popleft()
-            count += 1
-            for neighbor in directed_edges[node]:
-                node_to_indegree[neighbor] -= 1
-                if node_to_indegree[neighbor] == 0:
-                    q.append(neighbor)
+        rslt = []
+        while (q):
+            for _ in range(len(q)):
+                course = q.popleft()
+                rslt.append(course)
+                for neighbor in node_to_neighbors[course]:
+                    node_to_indegree[neighbor] -= 1
+                    if node_to_indegree[neighbor] == 0:
+                        q.append(neighbor)
 
-        return count == numCourses
+        return len(rslt) == numCourses
 
 
 sol = Solution()
-assert sol.canFinish(numCourses=2, prerequisites=[[1, 0]]) == True
 assert sol.canFinish(numCourses=10,
                      prerequisites=[[5, 8], [3, 5], [1, 9], [4, 5], [0, 2], [1, 9], [7, 8], [4, 9]]) == True
+
+assert sol.canFinish(numCourses=2, prerequisites=[[1, 0]]) == True

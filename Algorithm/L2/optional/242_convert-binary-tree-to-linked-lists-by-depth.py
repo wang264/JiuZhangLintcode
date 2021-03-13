@@ -114,3 +114,39 @@ class Solution:
 sol = Solution()
 root = build_tree_breadth_first(sequence=[1, 2, 3, 4])
 linked_list = sol.binaryTreeToLists(root=root)
+
+from collections import deque
+
+
+class Solution2:
+    # @param {TreeNode} root the root of binary tree
+    # @return {ListNode[]} a lists of linked list
+    def binaryTreeToLists(self, root):
+        if root is None:
+            return []
+        # Write your code here
+        q = deque([root])
+
+        rslt = []
+        while q:
+            for i in range(len(q)):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+
+                list_node = ListNode(node.val)
+                if i == 0:
+                    rslt.append(list_node)
+                    prev_node = list_node
+                else:
+                    prev_node.next = list_node
+                    prev_node = list_node
+
+        return rslt
+
+
+sol = Solution()
+root = build_tree_breadth_first(sequence=[1, 2, 3, 4])
+linked_list = sol.binaryTreeToLists(root=root)
