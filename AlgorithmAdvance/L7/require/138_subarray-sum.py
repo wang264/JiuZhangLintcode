@@ -44,7 +44,13 @@ class Solution:
         subarray_dict = {}
         current_sum = 0
         subarray_dict[0] = -1  # sum of first 0 th element is 0
-
+        # val = subarray_dict[key]
+        # key: sum of nums[0:i]
+        # val: i
+        #依次记录从 nums[0] 一直加到nums[i]的和。然后存下来，
+        # 如果我们又看到一次相同的和。那我们知道之间肯定相加等于0
+        # 比如说 从0加到i个，和是100。 然后从0加到j个，j>i，和还是100
+        # 那么从i+1个加到j个，和一定是0. 
         for i in range(len(nums)):
             current_sum += nums[i]
             if current_sum in subarray_dict:
@@ -55,5 +61,5 @@ class Solution:
 
 
 sol = Solution()
-sol.subarraySum([-3, 1, 2, -3, 4])
+sol.subarraySum([1,-3, 1, 2, -3, 4])
 sol.subarraySum([1, 0, 1])
