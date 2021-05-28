@@ -85,3 +85,4 @@ class Solution2:
 
 sol = Solution2()
 sol.permute(nums=[1,2,3])
+

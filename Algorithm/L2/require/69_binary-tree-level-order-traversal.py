@@ -68,3 +68,7 @@ class Solution:
             rslt.append(this_level)
         
         return rslt
+
+
+sol  =Solution()
+sol.levelOrder(root=None    )

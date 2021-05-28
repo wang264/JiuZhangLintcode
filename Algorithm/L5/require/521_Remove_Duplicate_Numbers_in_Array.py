@@ -82,9 +82,9 @@ class Solution2:
         while curr < len(nums):
             if nums[curr] not in have_seen:
                 nums[prev] = nums[curr]
+                have_seen.add(nums[curr])
                 prev += 1
                 curr + 1
-                have_seen.add(nums[curr])
                 count += 1
 
             else:

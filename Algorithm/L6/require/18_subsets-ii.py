@@ -55,7 +55,7 @@ class Solution:
             # [1_a, 1_b, 1_c, 2_a, 2_b, 2_c, 3_a, 3_b] to prevent duplicate result
             # we can only allow each time to select 1_a< 1_b< 1_c if we try to select 1_b before 1_a,
             # we should not allow that.
-            if idx != start_idx and nums[idx] == nums[idx - 1]:
+            if idx > 0 and idx != start_idx and nums[idx] == nums[idx - 1]:
                 continue
             curr_path.append(nums[idx])
             self.dfs_helper(nums, idx + 1, curr_path, rslt)
@@ -63,6 +63,6 @@ class Solution:
 
 
 sol = Solution()
-sol.subsetsWithDup(nums=[1, 2, 2])
+sol.subsetsWithDup(nums=[1, 1, 1, 2, 2])
 sol.subsetsWithDup(nums=[0])
 sol.subsetsWithDup(nums=[4, 1, 0]) == [[], [0], [0, 1], [0, 1, 4], [0, 4], [1], [1, 4], [4]]

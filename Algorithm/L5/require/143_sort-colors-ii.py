@@ -4,6 +4,7 @@ class Solution:
     @param k: An integer
     @return: nothing
     """
+
     # /O(nlogk), the best algorithm based on comparing
     # //算法时间复杂度要求到O(nlogk)，k为颜色个数
     # //这种算法的思想类似与quickSort与mergeSort结合
@@ -38,4 +39,9 @@ class Solution:
                 right -= 1
 
         self.rainbow_sort(colors, color_from, pivot, index_from, right)
-        self.rainbow_sort(colors, pivot+1, color_to, left, index_to)
+        self.rainbow_sort(colors, pivot + 1, color_to, left, index_to)
+
+
+colors = [1, 2, 2, 4, 1, 1, 3, 3, 2, 1, 3, 2, 4]
+sol = Solution()
+sol.sortColors2(colors=colors, k=4)

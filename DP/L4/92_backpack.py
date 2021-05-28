@@ -45,7 +45,7 @@ class Solution:
 
                 if w - A[i - 1] >= 0:
                     # 用第i个物品
-                    f[i][w] = f[i][w] or f[i - 1][w - A[i - 1]]
+                    f[i][w] = True
 
         # 用所有的物品，能拼出来的重量的最大的那个
         weights = [w for w in range(0, m + 1) if f[n][w] is True]
@@ -53,6 +53,42 @@ class Solution:
 
 
 sol = Solution()
+m = 10
+A = [3, 4, 8, 5]
+sol.backPack(m, A)
+
+import numpy as np
+
+
+class Solution2:
+    """
+    @param m: An integer m denotes the size of a backpack
+    @param A: Given n items with size A[i]
+    @return: The maximum size
+    """
+
+    def backPack(self, m, A):
+        # write your code here
+        # dp[i][j] can you use the first i element to sum to weight m
+        n = len(A)
+        dp = np.array([[False] * (m + 1) for _ in range(n + 1)])
+
+        dp[0][0] = True
+
+        for i in range(1, n + 1):
+            weight = A[i - 1]
+            for j in range(0, m + 1):
+                dp[i][j] = dp[i - 1][j]  # do not use the ith element
+                if j - weight >= 0:
+                    if dp[i - 1][j - weight]:
+                        # use the ith element
+                        dp[i][j] = True
+
+        weights = [w for w in range(0, m + 1) if dp[n][w]]
+        return max(weights)
+
+
+sol = Solution2()
 m = 10
 A = [3, 4, 8, 5]
 sol.backPack(m, A)
