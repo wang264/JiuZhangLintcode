@@ -22,36 +22,36 @@ class Solution:
     @return: The head of linked list.
     """
 
-    def insertionSortList2(self, head):
+    def insertionSortList(self, head):
         # write your code here
         if not head:
             return None
-        dummy = None
-        pass
+        dummy = ListNode("dummy", head)
 
-    def insertionSortList(self, head):
-        if not head:
-            return head
+        prev = head # point to the last node that are sorted.
+        curr = head.next  # the current node that need to be sorted.
 
-        dummy_node = ListNode(-1, head)
-        cur = head  # 当前已经拍好序的最后一个节点
-        while cur.next:
-            if cur.val <= cur.next.val:  # 如果下一个（待排）的节点比当前节点值大，不用进行插入
-                cur = cur.next
+        while curr:
+            # if the current node is larger than the largest sorted node. then do nothing.
+            if prev.val <= curr.val:
+                prev = curr
+                curr = curr.next
             else:
-                start = dummy_node  # 从头开始寻找插入位置，最终插入在start的后面
-                while start.next.val <= cur.next.val:  # 当start的next的值比待排的大
+                # you want to insert a node in between start and start.next
+                # so you want to find a node such that start.next is bigger than current.
+                start = dummy
+                while start.next.val <= curr.val:
                     start = start.next
-                tmp = cur.next  # 将待排的节点取出
-                cur.next = cur.next.next  # 更新待排节点
-                tmp.next = start.next  # 插在start节点后面
-                start.next = tmp
+                prev.next = curr.next
+                curr.next = start.next
+                start.next = curr
 
-        return dummy_node.next
+                # update the next node that need to work on
+                curr = prev.next
+
+        return dummy.next
 
 
-l = build_linked_list_from_array(vals=[1, 6, -1, 3, 0, -2, ])
+l = build_linked_list_from_array(vals=[2, 1])
 sol = Solution()
 sol.insertionSortList(head=l)
-
-
