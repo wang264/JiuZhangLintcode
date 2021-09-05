@@ -132,3 +132,55 @@ grid = [
 ]
 sol = Solution2()
 sol.numIslands(grid)
+
+## Start typing here
+
+
+# 0 1 1 0 1
+# 0 1 0 1 1
+# 1 1 0 1 1
+# 0 1 0 1 0
+# [2, 1, 3, 1, 1]
+
+
+DIRECTION = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+
+def is_valid(grid, i, j, visited):
+    m, n = len(grid), len(grid[0])
+    if 0 <= i < m and 0 <= j < n and ((i, j) not in visited) and grid[i][j] == 0:
+        return True
+    else:
+        return False
+
+
+def bfs_helper(grid, x, y, visited, curr_count):
+    if is_valid(grid, x, y, visited):
+        visited.add((x, y))
+        curr_count[0] += 1
+        for dx, dy in DIRECTION:
+            new_x, new_y = x + dx, y + dy
+            bfs_helper(grid, new_x, new_y, visited, curr_count)
+
+
+def get_sizes(grid):
+    if not grid:
+        return 0
+    m, n = len(grid), len(grid[0])
+    visited = set()
+    island_sizes = list()
+    for i in range(m):
+        for j in range(n):
+            if is_valid(grid, i, j, visited):
+                curr_count = [0]
+                bfs_helper(grid, i, j, visited, curr_count)
+                island_sizes.append(curr_count[0])
+    return island_sizes
+
+
+grid = [0, 1, 1, 0, 1], [0, 1, 0, 1, 1], [1, 1, 0, 1, 1], [0, 1, 0, 1, 0]
+
+print(get_sizes(grid))
+
+
+
